@@ -4,7 +4,7 @@
 
 xAI's website is a masterclass in dark-first, monospace-driven brutalist minimalism -- a design system that feels like it was built by engineers who understand that restraint is the ultimate form of sophistication. The entire experience is anchored to an almost-black background (`#1f2228`) with pure white text (`#ffffff`), creating a high-contrast, terminal-inspired aesthetic that signals deep technical credibility. There are no gradients, no decorative illustrations, no color accents competing for attention. This is a site that communicates through absence.
 
-The typographic system is split between two carefully chosen typefaces. `GeistMono` (Vercel's monospace font) handles display-level headlines at an extraordinary 320px with weight 300, and also serves as the button typeface in uppercase with tracked-out letter-spacing (1.4px). `universalSans` handles all body and secondary heading text with a clean, geometric sans-serif voice. The monospace-as-display-font choice is the defining aesthetic decision -- it positions xAI not as a consumer product but as infrastructure, as something built by people who live in terminals.
+The typographic system is split between two carefully chosen typefaces. `GeistMono` (Vercel's monospace font) handles display-level headlines at an extraordinary 320px with weight 300, and also serves as the button typeface in uppercase with tracked-out letter-spacing (1.4px). `Geist Sans` handles all body and secondary heading text with a clean, geometric sans-serif voice. The monospace-as-display-font choice is the defining aesthetic decision -- it positions xAI not as a consumer product but as infrastructure, as something built by people who live in terminals.
 
 The spacing system operates on an 8px base grid with values concentrated at the small end (4px, 8px, 24px, 48px), reflecting a dense, information-focused layout philosophy. Border radius is minimal -- the site barely rounds anything, maintaining sharp, architectural edges. There are no decorative shadows, no gradients, no layered elevation. Depth is communicated purely through contrast and whitespace.
 
@@ -12,7 +12,7 @@ The spacing system operates on an 8px base grid with values concentrated at the 
 - Pure dark theme: `#1f2228` background with `#ffffff` text -- no gray middle ground
 - GeistMono at extreme display sizes (320px, weight 300) -- monospace as luxury
 - Uppercase monospace buttons with 1.4px letter-spacing -- technical, commanding
-- universalSans for body text at 16px/1.5 and headings at 30px/1.2 -- clean contrast
+- Geist Sans for body text at 16px/1.5 and headings at 30px/1.2 -- clean contrast
 - Zero decorative elements: no shadows, no gradients, no colored accents
 - 8px spacing grid with a sparse, deliberate scale
 - Heroicons SVG icon system -- minimal, functional
@@ -46,24 +46,24 @@ The spacing system operates on an 8px base grid with values concentrated at the 
 
 ### Font Family
 - **Display / Buttons**: `GeistMono`, with fallback: `ui-monospace, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, Courier New`
-- **Body / Headings**: `universalSans`, with fallback: `universalSans Fallback`
+- **Body / Headings**: `Geist Sans`, with fallback: `ui-sans-serif, system-ui, sans-serif`
 
 ### Hierarchy
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing | Transform | Notes |
 |------|------|------|--------|-------------|----------------|-----------|-------|
 | Display Hero | GeistMono | 320px (20rem) | 300 | 1.50 | normal | none | Extreme scale, monospace luxury |
-| Section Heading | universalSans | 30px (1.88rem) | 400 | 1.20 (tight) | normal | none | Clean sans-serif contrast |
-| Body | universalSans | 16px (1rem) | 400 | 1.50 | normal | none | Standard reading text |
+| Section Heading | Geist Sans | 30px (1.88rem) | 400 | 1.20 (tight) | normal | none | Clean sans-serif contrast |
+| Body | Geist Sans | 16px (1rem) | 400 | 1.50 | normal | none | Standard reading text |
 | Button | GeistMono | 14px (0.88rem) | 400 | 1.43 | 1.4px | uppercase | Tracked monospace, commanding |
-| Label / Caption | universalSans | 14px (0.88rem) | 400 | 1.50 | normal | none | Supporting text |
-| Small / Meta | universalSans | 12px (0.75rem) | 400 | 1.50 | normal | none | Timestamps, footnotes |
+| Label / Caption | Geist Sans | 14px (0.88rem) | 400 | 1.50 | normal | none | Supporting text |
+| Small / Meta | Geist Sans | 12px (0.75rem) | 400 | 1.50 | normal | none | Timestamps, footnotes |
 
 ### Principles
 - **Monospace as display**: GeistMono at 320px is not a gimmick -- it is the brand statement. The fixed-width characters at extreme scale create a rhythmic, architectural quality that no proportional font can achieve.
 - **Light weight at scale**: Weight 300 for the 320px headline prevents the monospace from feeling heavy or brutish at extreme sizes. It reads as precise, not overwhelming.
 - **Uppercase buttons**: All button text is uppercase GeistMono with 1.4px letter-spacing. This creates a distinctly technical, almost command-line aesthetic for interactive elements.
-- **Sans-serif for reading**: universalSans at 16px/1.5 provides excellent readability for body content, creating a clean contrast against the monospace display elements.
+- **Sans-serif for reading**: Geist Sans at 16px/1.5 provides excellent readability for body content, creating a clean contrast against the monospace display elements.
 - **Two-font clarity**: The system uses exactly two typefaces with clear roles -- monospace for impact and interaction, sans-serif for information and reading. No overlap, no ambiguity.
 
 ## 4. Component Stylings
@@ -92,7 +92,7 @@ The spacing system operates on an 8px base grid with values concentrated at the 
 **Text Link**
 - Background: none
 - Text: `#ffffff`
-- Font: universalSans 16px weight 400
+- Font: Geist Sans 16px weight 400
 - Hover: `rgba(255, 255, 255, 0.5)` -- dims on hover
 - Use: Inline links, navigation items
 
@@ -106,7 +106,7 @@ The spacing system operates on an 8px base grid with values concentrated at the 
 ### Navigation
 - Dark background matching page (`#1f2228`)
 - Brand logotype: white text, left-aligned
-- Links: universalSans 14px weight 400, `#ffffff` text
+- Links: Geist Sans 14px weight 400, `#ffffff` text
 - Hover: `rgba(255, 255, 255, 0.5)` text color
 - CTA: white primary button, right-aligned
 - Mobile: hamburger toggle
@@ -127,7 +127,7 @@ The spacing system operates on an 8px base grid with values concentrated at the 
 - Focus: ring with `rgb(59, 130, 246) / 0.5`
 - Text: `#ffffff`
 - Placeholder: `rgba(255, 255, 255, 0.3)`
-- Label: `rgba(255, 255, 255, 0.7)`, universalSans 14px
+- Label: `rgba(255, 255, 255, 0.7)`, Geist Sans 14px
 
 ## 5. Layout Principles
 
@@ -179,7 +179,7 @@ The spacing system operates on an 8px base grid with values concentrated at the 
 - Keep borders at `rgba(255, 255, 255, 0.1)` -- barely visible, not absent
 - Dim interactive elements on hover to `rgba(255, 255, 255, 0.5)` -- the reverse of convention
 - Maintain sharp corners (0px radius) as the default -- brutalist precision
-- Use universalSans for all body and reading text at 16px/1.5
+- Use Geist Sans for all body and reading text at 16px/1.5
 
 ### Don't
 - Don't use box-shadows -- xAI has zero shadow elevation
@@ -238,20 +238,20 @@ The spacing system operates on an 8px base grid with values concentrated at the 
 - Button Primary BG: White (`#ffffff`), text Dark (`#1f2228`)
 
 ### Example Component Prompts
-- "Create a hero section on #1f2228 background. Headline in GeistMono at 72px weight 300, color #ffffff, centered. Subtitle in universalSans 18px weight 400, rgba(255,255,255,0.7), max-width 600px centered. Two buttons: primary (white bg, #1f2228 text, 0px radius, GeistMono 14px uppercase, 1.4px letter-spacing, 12px 24px padding) and ghost (transparent bg, 1px solid rgba(255,255,255,0.2), white text, same font treatment)."
-- "Design a card: transparent or rgba(255,255,255,0.03) background, 1px solid rgba(255,255,255,0.1) border, 0px radius, 24px padding. No shadow. Title in universalSans 22px weight 400, #ffffff. Body in universalSans 16px weight 400, rgba(255,255,255,0.7), line-height 1.5. Hover: border changes to rgba(255,255,255,0.2)."
-- "Build navigation: #1f2228 background, full-width. Brand text left (GeistMono 14px uppercase). Links in universalSans 14px #ffffff with hover to rgba(255,255,255,0.5). White primary button right-aligned (GeistMono 14px uppercase, 1.4px letter-spacing)."
-- "Create a form: dark background #1f2228. Label in universalSans 14px rgba(255,255,255,0.7). Input with transparent bg, 1px solid rgba(255,255,255,0.2) border, 0px radius, white text 16px universalSans. Focus: blue ring rgb(59,130,246)/0.5. Placeholder: rgba(255,255,255,0.3)."
+- "Create a hero section on #1f2228 background. Headline in GeistMono at 72px weight 300, color #ffffff, centered. Subtitle in Geist Sans 18px weight 400, rgba(255,255,255,0.7), max-width 600px centered. Two buttons: primary (white bg, #1f2228 text, 0px radius, GeistMono 14px uppercase, 1.4px letter-spacing, 12px 24px padding) and ghost (transparent bg, 1px solid rgba(255,255,255,0.2), white text, same font treatment)."
+- "Design a card: transparent or rgba(255,255,255,0.03) background, 1px solid rgba(255,255,255,0.1) border, 0px radius, 24px padding. No shadow. Title in Geist Sans 22px weight 400, #ffffff. Body in Geist Sans 16px weight 400, rgba(255,255,255,0.7), line-height 1.5. Hover: border changes to rgba(255,255,255,0.2)."
+- "Build navigation: #1f2228 background, full-width. Brand text left (GeistMono 14px uppercase). Links in Geist Sans 14px #ffffff with hover to rgba(255,255,255,0.5). White primary button right-aligned (GeistMono 14px uppercase, 1.4px letter-spacing)."
+- "Create a form: dark background #1f2228. Label in Geist Sans 14px rgba(255,255,255,0.7). Input with transparent bg, 1px solid rgba(255,255,255,0.2) border, 0px radius, white text 16px Geist Sans. Focus: blue ring rgb(59,130,246)/0.5. Placeholder: rgba(255,255,255,0.3)."
 - "Design a monospace tag/badge: transparent bg, 1px solid rgba(255,255,255,0.2), 0px radius, GeistMono 12px uppercase, 1px letter-spacing, white text, 4px 8px padding."
 
 ### Iteration Guide
 1. Always start with `#1f2228` background -- never use pure black or gray backgrounds
-2. GeistMono for display and buttons, universalSans for everything else -- never mix these roles
+2. GeistMono for display and buttons, Geist Sans for everything else -- never mix these roles
 3. All buttons must be GeistMono uppercase with 1.4px letter-spacing -- this is non-negotiable
 4. No shadows, ever -- depth comes from border opacity and background opacity only
 5. Borders are always white with low opacity (0.1 default, 0.2 for emphasis)
 6. Hover behavior dims to 0.5 opacity rather than brightening -- the reverse of most systems
 7. Sharp corners (0px) by default -- only use 4px for specific secondary containers
-8. Body text at 16px universalSans with 1.5 line-height for comfortable reading
+8. Body text at 16px Geist Sans with 1.5 line-height for comfortable reading
 9. Generous section padding (48px-96px) -- let content breathe in the darkness
 10. The monochromatic white-on-dark palette is absolute -- resist adding color unless critical for function
