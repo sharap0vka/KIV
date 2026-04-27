@@ -12,7 +12,8 @@
     "smoke:structure": "node scripts/smoke/check-structure.mjs",
     "smoke:config": "node scripts/smoke/check-config.mjs",
     "smoke:run": "node scripts/smoke/check-run.mjs",
-    "smoke:all": "node scripts/smoke/check-structure.mjs && node scripts/smoke/check-config.mjs && node scripts/smoke/check-run.mjs"
+    "smoke:all": "node scripts/smoke/check-structure.mjs && node scripts/smoke/check-config.mjs && node scripts/smoke/check-run.mjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "next": "^15.0.0",
@@ -25,9 +26,11 @@
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "tailwindcss": "^4.1.13",
-    "velite": "^0.2.4",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "velite": "^0.2.4"
   },
   "packageManager": "pnpm@10.12.1"
 }
