@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { buildTagIndex, normalizeTag, sortTags } from "@/lib/tags";
 import { describe, expect, it } from "vitest";
 

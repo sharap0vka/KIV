@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { shouldIncludeDocument } from "@/content/draft-gating";
 import { describe, expect, it } from "vitest";
 
