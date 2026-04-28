@@ -1,4 +1,5 @@
 import { Footer } from "@/components/layout/Footer";
+import { mdxComponents } from "@/components/content/mdx-components";
 import { Header } from "@/components/layout/Header";
 import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
@@ -47,7 +48,7 @@ function renderArticleBody(code: string) {
   const module = evaluated({ jsx, jsxs, Fragment });
   const Content = module.default;
 
-  return <Content />;
+  return <Content components={mdxComponents} />;
 }
 
 export function generateStaticParams() {

@@ -8,6 +8,7 @@ type HeadingProps = {
   as?: HeadingLevel;
   variant?: HeadingVariant;
   className?: string;
+  id?: string;
 };
 
 const variantClasses: Record<HeadingVariant, string> = {
@@ -17,9 +18,13 @@ const variantClasses: Record<HeadingVariant, string> = {
   bodyTitle: "font-sans text-xl font-normal leading-[1.35] text-fg",
 };
 
-export function Heading({ children, as = "h2", variant = "section", className }: HeadingProps) {
+export function Heading({ children, as = "h2", variant = "section", className, id }: HeadingProps) {
   const Component = as;
   const classes = [variantClasses[variant], className].filter(Boolean).join(" ");
 
-  return <Component className={classes}>{children}</Component>;
+  return (
+    <Component className={classes} id={id}>
+      {children}
+    </Component>
+  );
 }
