@@ -6,3 +6,15 @@ type Collections = typeof __vc.collections
 
 export type Article = Collections['articles']['schema']['_output']
 export declare const articles: Article[]
+
+export type Concept = Collections['concepts']['schema']['_output']
+export declare const concepts: Concept[]
+
+export type Skill = Collections['skills']['schema']['_output']
+export declare const skills: Skill[]
+
+export type Mcp = Collections['mcp']['schema']['_output']
+export declare const mcp: Mcp[]
+
+export type TrendMeta = Collections['trends']['schema']['_output']
+export declare const trends: TrendMeta[]
