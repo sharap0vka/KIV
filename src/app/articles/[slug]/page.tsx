@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
 import { Tag } from "@/components/ui/Tag";
+import { getTagSlug } from "@/lib/tags";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -100,7 +101,7 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
             {article.tags.length > 0 ? (
               <div className="flex flex-wrap gap-2">
                 {article.tags.map((tag) => (
-                  <Link key={`${article.slug}-${tag}`} href={`/tags/${tag}`}>
+                  <Link key={`${article.slug}-${tag}`} href={`/tags/${getTagSlug(tag)}`}>
                     <Tag variant="mono">{tag}</Tag>
                   </Link>
                 ))}
