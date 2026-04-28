@@ -7,7 +7,7 @@ export function normalizeTag(raw: string): string {
     .normalize("NFKC")
     .trim()
     .toLowerCase()
-    .replace(/[_\s-]+/g, "-")
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "");
 }
 
