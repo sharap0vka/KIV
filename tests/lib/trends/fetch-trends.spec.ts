@@ -1,20 +1,11 @@
 // @vitest-environment node
-import {
-  type GitHubTrendsClient,
-  type TrendsSeed,
-  fetchTrendsSnapshot,
-} from "@/lib/trends/fetch-trends";
+import { type GitHubTrendsClient, fetchTrendsSnapshot } from "@/lib/trends/fetch-trends";
 import { describe, expect, it } from "vitest";
 
 describe("fetchTrendsSnapshot", () => {
-  it("builds deterministic snapshot from topics and watchlist", async () => {
-    const seed: TrendsSeed = {
-      topics: ["ai"],
-      watchlist: [{ owner: "anthropics", repo: "claude-code" }],
-    };
-
+  it("builds deterministic snapshot from weekly trending feed", async () => {
     const client: GitHubTrendsClient = {
-      searchByTopic: async () => [
+      getWeeklyTrending: async () => [
         {
           owner: "openai",
           repo: "openai-agents",
@@ -32,18 +23,10 @@ describe("fetchTrendsSnapshot", () => {
           starsDeltaWeek: 140,
         },
       ],
-      getRepository: async () => ({
-        owner: "anthropics",
-        repo: "claude-code",
-        description: "CLI coding agent",
-        language: "TypeScript",
-        starsTotal: 1000,
-        starsDeltaWeek: 140,
-      }),
     };
 
     const now = new Date("2026-04-30T10:15:00.000Z");
-    const snapshot = await fetchTrendsSnapshot(seed, client, now);
+    const snapshot = await fetchTrendsSnapshot(client, now);
 
     expect(snapshot).toMatchObject({
       date: "2026-04-30",
@@ -53,122 +36,61 @@ describe("fetchTrendsSnapshot", () => {
       "openai/openai-agents",
       "anthropics/claude-code",
     ]);
-    expect(snapshot.items[1]?.description).toBe("CLI coding agent");
+    expect(snapshot.items[1]?.description).toBe("Code agent");
   });
 
-  it("returns empty items when all sources return empty payloads", async () => {
-    const seed: TrendsSeed = {
-      topics: ["ai", "mcp"],
-      watchlist: [],
-    };
-
+  it("returns empty items when weekly feed is empty", async () => {
     const client: GitHubTrendsClient = {
-      searchByTopic: async () => [],
-      getRepository: async () => null,
+      getWeeklyTrending: async () => [],
     };
 
-    const snapshot = await fetchTrendsSnapshot(seed, client, new Date("2026-04-30T00:00:00.000Z"));
+    const snapshot = await fetchTrendsSnapshot(client, new Date("2026-04-30T00:00:00.000Z"));
 
     expect(snapshot.items).toEqual([]);
     expect(snapshot.date).toBe("2026-04-30");
     expect(snapshot.generatedAt).toBe("2026-04-30T00:00:00.000Z");
   });
 
-  it("keeps successful results when one source fails", async () => {
-    const seed: TrendsSeed = {
-      topics: ["ai", "rust"],
-      watchlist: [],
-    };
-
+  it("deduplicates repeated repositories from weekly feed", async () => {
     const client: GitHubTrendsClient = {
-      searchByTopic: async (topic) => {
-        if (topic === "rust") {
-          throw new Error("rate limit");
-        }
-
-        return [
-          {
-            owner: "openai",
-            repo: "openai-agents",
-            starsTotal: 3200,
-            starsDeltaWeek: 400,
-          },
-        ];
-      },
-      getRepository: async () => null,
-    };
-
-    const snapshot = await fetchTrendsSnapshot(seed, client, new Date("2026-04-30T00:00:00.000Z"));
-
-    expect(snapshot.items.map((item) => `${item.owner}/${item.repo}`)).toEqual([
-      "openai/openai-agents",
-    ]);
-  });
-
-  it("deduplicates topic and watchlist entries and applies watchlist overrides", async () => {
-    const seed: TrendsSeed = {
-      topics: ["ai"],
-      watchlist: [
+      getWeeklyTrending: async () => [
         {
-          owner: "Anthropics",
-          repo: "Claude-Code",
-          description: "Watchlist override",
-          language: "Rust",
+          owner: "OpenAI",
+          repo: "openai-agents",
+          starsTotal: 3200,
+          starsDeltaWeek: 400,
+        },
+        {
+          owner: "openai",
+          repo: "openai-agents",
+          starsTotal: 3300,
+          starsDeltaWeek: 450,
+          description: "Latest duplicate wins",
         },
       ],
     };
 
-    const client: GitHubTrendsClient = {
-      searchByTopic: async () => [
-        {
-          owner: "anthropics",
-          repo: "claude-code",
-          description: "From topic list",
-          language: "TypeScript",
-          starsTotal: 1000,
-          starsDeltaWeek: 140,
-        },
-      ],
-      getRepository: async () => ({
-        owner: "anthropics",
-        repo: "claude-code",
-        description: "From watchlist fetch",
-        language: "TypeScript",
-        starsTotal: 1000,
-        starsDeltaWeek: 140,
-      }),
-    };
-
-    const snapshot = await fetchTrendsSnapshot(seed, client, new Date("2026-04-30T00:00:00.000Z"));
+    const snapshot = await fetchTrendsSnapshot(client, new Date("2026-04-30T00:00:00.000Z"));
 
     expect(snapshot.items).toHaveLength(1);
     expect(snapshot.items[0]).toMatchObject({
-      owner: "Anthropics",
-      repo: "Claude-Code",
-      description: "Watchlist override",
-      language: "Rust",
-      starsTotal: 1000,
-      starsDeltaWeek: 140,
+      owner: "openai",
+      repo: "openai-agents",
+      starsTotal: 3300,
+      starsDeltaWeek: 450,
+      description: "Latest duplicate wins",
     });
   });
 
-  it("throws when every upstream request fails", async () => {
-    const seed: TrendsSeed = {
-      topics: ["ai", "mcp"],
-      watchlist: [{ owner: "openai", repo: "openai-agents" }],
-    };
-
+  it("throws when weekly upstream request fails", async () => {
     const client: GitHubTrendsClient = {
-      searchByTopic: async () => {
-        throw new Error("github unavailable");
-      },
-      getRepository: async () => {
+      getWeeklyTrending: async () => {
         throw new Error("github unavailable");
       },
     };
 
-    await expect(
-      fetchTrendsSnapshot(seed, client, new Date("2026-04-30T00:00:00.000Z")),
-    ).rejects.toThrow("Failed to fetch trends data");
+    await expect(fetchTrendsSnapshot(client, new Date("2026-04-30T00:00:00.000Z"))).rejects.toThrow(
+      "Failed to fetch trends data",
+    );
   });
 });

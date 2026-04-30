@@ -1,0 +1,101 @@
+{
+  "date": "2026-04-30",
+  "generatedAt": "2026-04-30T11:14:22.799Z",
+  "items": [
+    {
+      "owner": "Alishahryar1",
+      "repo": "free-claude-code",
+      "description": "Use claude-code for free in the terminal, VSCode extension or discord like OpenClaw (voice supported)",
+      "language": "Python",
+      "starsTotal": 18847,
+      "starsDeltaWeek": 16154
+    },
+    {
+      "owner": "mattpocock",
+      "repo": "skills",
+      "description": "Skills for Real Engineers. Straight from my .claude directory.",
+      "language": "Shell",
+      "starsTotal": 47332,
+      "starsDeltaWeek": 24702
+    },
+    {
+      "owner": "huggingface",
+      "repo": "ml-intern",
+      "description": "🤗 ml-intern: an open-source ML engineer that reads papers, trains models, and ships ML models",
+      "language": "Python",
+      "starsTotal": 7595,
+      "starsDeltaWeek": 6388
+    },
+    {
+      "owner": "Z4nzu",
+      "repo": "hackingtool",
+      "description": "ALL IN ONE Hacking Tool For Hackers",
+      "language": "Python",
+      "starsTotal": 68991,
+      "starsDeltaWeek": 9428
+    },
+    {
+      "owner": "CJackHwang",
+      "repo": "ds2api",
+      "description": "Deepseek to API: A lightweight, high-performance full-stack middleware converting client protocols to universal APIs. Supports multi-account rotation, compiled binaries, Vercel Serverless, and Docker. Compatible with Google, Claude, and OpenAI API formats.",
+      "language": "Go",
+      "starsTotal": 2882,
+      "starsDeltaWeek": 1415
+    },
+    {
+      "owner": "forrestchang",
+      "repo": "andrej-karpathy-skills",
+      "description": "A single CLAUDE.md file to improve Claude Code behavior, derived from Andrej Karpathy's observations on LLM coding pitfalls.",
+      "starsTotal": 101619,
+      "starsDeltaWeek": 24129
+    },
+    {
+      "owner": "AIDC-AI",
+      "repo": "Pixelle-Video",
+      "description": "🚀 AI 全自动短视频引擎 | AI Fully Automated Short Video Engine",
+      "language": "Python",
+      "starsTotal": 8219,
+      "starsDeltaWeek": 2445
+    },
+    {
+      "owner": "trycua",
+      "repo": "cua",
+      "description": "Open-source infrastructure for Computer-Use Agents. Sandboxes, SDKs, and benchmarks to train and evaluate AI agents that can control full desktops (macOS, Linux, Windows).",
+      "language": "HTML",
+      "starsTotal": 15334,
+      "starsDeltaWeek": 1615
+    },
+    {
+      "owner": "Anil-matcha",
+      "repo": "Open-Generative-AI",
+      "description": "Uncensored, open-source alternative to Higgsfield AI, Freepik AI, Krea AI, Openart AI — Free, unrestricted AI image &amp; video generation studio with 200+ models (Flux, Midjourney, Kling, Sora, Veo). No content filters. Self-hosted, MIT licensed.",
+      "language": "JavaScript",
+      "starsTotal": 10269,
+      "starsDeltaWeek": 3823
+    },
+    {
+      "owner": "Fincept-Corporation",
+      "repo": "FinceptTerminal",
+      "description": "FinceptTerminal is a modern finance application offering advanced market analytics, investment research, and economic data tools, designed for interactive exploration and data-driven decision-making in a user-friendly environment.",
+      "language": "Python",
+      "starsTotal": 18048,
+      "starsDeltaWeek": 5117
+    },
+    {
+      "owner": "zilliztech",
+      "repo": "claude-context",
+      "description": "Code search MCP for Claude Code. Make entire codebase the context for any coding agent.",
+      "language": "TypeScript",
+      "starsTotal": 10364,
+      "starsDeltaWeek": 3151
+    },
+    {
+      "owner": "lsdefine",
+      "repo": "GenericAgent",
+      "description": "Self-evolving agent: grows skill tree from 3.3K-line seed, achieving full system control with 6x less token consumption",
+      "language": "Python",
+      "starsTotal": 8393,
+      "starsDeltaWeek": 2365
+    }
+  ]
+}

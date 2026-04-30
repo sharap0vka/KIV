@@ -15,81 +15,35 @@ export type TrendsSnapshot = {
   items: TrendItem[];
 };
 
-export type WatchlistItem = {
-  owner: string;
-  repo: string;
-  description?: string;
-  language?: string;
-  starsTotal?: number;
-  starsDeltaWeek?: number;
-};
-
-export type TrendsSeed = {
-  topics: string[];
-  watchlist?: WatchlistItem[];
-};
-
 export type GitHubTrendsClient = {
-  searchByTopic(topic: string): Promise<TrendItem[]>;
-  getRepository(owner: string, repo: string): Promise<TrendItem | null>;
+  getWeeklyTrending(): Promise<TrendItem[]>;
 };
 
 export async function fetchTrendsSnapshot(
-  seed: TrendsSeed,
   client: GitHubTrendsClient,
   now: Date = new Date(),
 ): Promise<TrendsSnapshot> {
-  const topicTasks = seed.topics.map((topic) => client.searchByTopic(topic));
-  const watchlist = seed.watchlist ?? [];
-  const watchlistTasks = watchlist.map((item) => client.getRepository(item.owner, item.repo));
+  const result = await Promise.allSettled([client.getWeeklyTrending()]);
+  const hasAtLeastOneSuccess = result.some((entry) => entry.status === "fulfilled");
+  const hasAtLeastOneFailure = result.some((entry) => entry.status === "rejected");
 
-  const topicResults = await Promise.allSettled(topicTasks);
-  const watchlistResults = await Promise.allSettled(watchlistTasks);
-  const allResults = [...topicResults, ...watchlistResults];
-
-  const hasAtLeastOneSuccess = allResults.some((result) => result.status === "fulfilled");
-  const hasAtLeastOneFailure = allResults.some((result) => result.status === "rejected");
-
-  if (!hasAtLeastOneSuccess && hasAtLeastOneFailure) {
+  if (!hasAtLeastOneSuccess || hasAtLeastOneFailure) {
     throw new AggregateError(
-      allResults
-        .filter((result): result is PromiseRejectedResult => result.status === "rejected")
-        .map((result) => result.reason),
+      result
+        .filter((entry): entry is PromiseRejectedResult => entry.status === "rejected")
+        .map((entry) => entry.reason),
       "Failed to fetch trends data",
     );
   }
 
   const itemsByRepo = new Map<RepoKey, TrendItem>();
+  const [weeklyTrendingResult] = result;
 
-  for (const result of topicResults) {
-    if (result.status !== "fulfilled") {
-      continue;
-    }
-
-    for (const rawItem of result.value) {
+  if (weeklyTrendingResult && weeklyTrendingResult.status === "fulfilled") {
+    for (const rawItem of weeklyTrendingResult.value) {
       const item = normalizeTrendItem(rawItem);
       itemsByRepo.set(toRepoKey(item.owner, item.repo), item);
     }
-  }
-
-  for (let index = 0; index < watchlist.length; index += 1) {
-    const seedItem = watchlist[index];
-    const result = watchlistResults[index];
-    const existing = itemsByRepo.get(toRepoKey(seedItem.owner, seedItem.repo));
-
-    if (!result || result.status !== "fulfilled" || !result.value) {
-      continue;
-    }
-
-    const fetched = normalizeTrendItem(result.value);
-    const merged = normalizeTrendItem({
-      ...existing,
-      ...fetched,
-      ...seedItem,
-      owner: seedItem.owner,
-      repo: seedItem.repo,
-    });
-    itemsByRepo.set(toRepoKey(merged.owner, merged.repo), merged);
   }
 
   const items = [...itemsByRepo.values()].sort(compareTrendItems);
