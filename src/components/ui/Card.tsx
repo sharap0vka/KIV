@@ -9,14 +9,14 @@ type CardProps = {
 } & ComponentPropsWithoutRef<"div">;
 
 const variantClasses: Record<CardVariant, string> = {
-  flat: "bg-transparent border-border",
-  surface: "bg-surface border-border",
-  bordered: "bg-transparent border-border-strong",
+  flat: "bg-transparent border-[var(--fg-10)]",
+  surface: "bg-[var(--fg-03)] border-[var(--fg-10)]",
+  bordered: "bg-transparent border-[var(--fg-30)]",
 };
 
 export function Card({ children, variant = "surface", className, ...props }: CardProps) {
   const classes = [
-    "rounded-sharp border p-6 transition-colors hover:border-border-strong",
+    "rounded-sharp border p-6 transition-colors hover:border-[var(--fg-30)] hover:bg-[var(--fg-03)]",
     variantClasses[variant],
     className,
   ]

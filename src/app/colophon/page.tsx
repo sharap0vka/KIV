@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
 import type { Metadata } from "next";
@@ -9,16 +10,34 @@ export const metadata: Metadata = {
 
 export default function ColophonPage() {
   return (
-    <Container as="section" className="space-y-6">
-      <Heading as="h1" variant="section">
-        Colophon
-      </Heading>
-      <ul className="space-y-2 text-base text-text-secondary">
-        <li>Framework: Next.js App Router</li>
-        <li>Content pipeline: Velite + MDX</li>
-        <li>Styling: Tailwind CSS v4</li>
-        <li>Quality gates: Vitest, TypeScript, Biome</li>
-      </ul>
-    </Container>
+    <section className="kiv-section border-b-0">
+      <Container as="div" className="space-y-8">
+        <div className="mb-2 grid items-baseline gap-3 md:grid-cols-[200px_1fr_auto] md:gap-8">
+          <div className="text-xs uppercase tracking-[0.18em] text-[var(--fg-30)]">{"// 22"}</div>
+          <Heading as="h1" variant="section">
+            colophon <span className="text-[var(--fg-30)]">/</span> stack & process
+          </Heading>
+          <div className="text-[11px] uppercase tracking-[0.08em] text-[var(--fg-50)]">
+            project meta
+          </div>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card variant="surface">
+            <p className="font-sans text-sm text-[var(--fg-70)]">Framework: Next.js App Router</p>
+          </Card>
+          <Card variant="surface">
+            <p className="font-sans text-sm text-[var(--fg-70)]">Content pipeline: Velite + MDX</p>
+          </Card>
+          <Card variant="surface">
+            <p className="font-sans text-sm text-[var(--fg-70)]">Styling: Tailwind CSS v4</p>
+          </Card>
+          <Card variant="surface">
+            <p className="font-sans text-sm text-[var(--fg-70)]">
+              Quality gates: Vitest, TypeScript, Biome
+            </p>
+          </Card>
+        </div>
+      </Container>
+    </section>
   );
 }

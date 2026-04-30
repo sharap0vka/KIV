@@ -2,16 +2,24 @@
 
 :root {
   color-scheme: dark;
-  --bg: #17191d;
-  --fg: #f9f9f9;
-  --text-secondary: rgb(249 249 249 / 74%);
-  --text-muted: rgb(249 249 249 / 58%);
-  --text-disabled: rgb(249 249 249 / 36%);
-  --border: rgb(249 249 249 / 14%);
-  --border-strong: rgb(249 249 249 / 26%);
-  --surface: rgb(249 249 249 / 4%);
-  --surface-hover: rgb(249 249 249 / 10%);
-  --focus-ring: rgb(250 204 21 / 58%);
+  --bg: #1f2228;
+  --bg-2: #1a1d22;
+  --fg: #ffffff;
+  --fg-70: rgb(255 255 255 / 70%);
+  --fg-50: rgb(255 255 255 / 50%);
+  --fg-30: rgb(255 255 255 / 30%);
+  --fg-15: rgb(255 255 255 / 15%);
+  --fg-10: rgb(255 255 255 / 10%);
+  --fg-05: rgb(255 255 255 / 5%);
+  --fg-03: rgb(255 255 255 / 3%);
+  --text-secondary: var(--fg-70);
+  --text-muted: var(--fg-50);
+  --text-disabled: var(--fg-30);
+  --border: var(--fg-10);
+  --border-strong: var(--fg-30);
+  --surface: var(--fg-03);
+  --surface-hover: var(--fg-05);
+  --focus-ring: rgb(59 130 246 / 50%);
   --radius-sharp: 0px;
   --radius-subtle: 4px;
   --space-1: 4px;
@@ -46,9 +54,12 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--bg);
+  background: var(--bg);
   color: var(--fg);
   font-family: var(--font-mono);
+  font-feature-settings: "calt" 1, "liga" 1, "ss01" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   line-height: 1.5;
 }
 
@@ -64,6 +75,29 @@ blockquote {
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(var(--fg-03) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fg-03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: -1px -1px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(circle at 50% 30%, #000 30%, transparent 80%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(1200px 700px at 80% -10%, rgb(255 255 255 / 4%), transparent 60%),
+    radial-gradient(900px 600px at 0% 100%, rgb(59 130 246 / 6%), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 a {
@@ -119,4 +153,97 @@ a[aria-disabled="true"] {
 
 .ticker-track {
   animation: ticker-scroll 60s linear infinite;
+}
+
+.kiv-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-inline: 32px;
+}
+
+.kiv-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  background: rgb(31 34 40 / 78%);
+  border-bottom: 1px solid var(--fg-10);
+}
+
+.kiv-topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  gap: 16px;
+}
+
+.kiv-hero {
+  position: relative;
+  z-index: 1;
+  padding-block: 88px 72px;
+  border-bottom: 1px solid var(--fg-10);
+}
+
+.kiv-section {
+  position: relative;
+  z-index: 1;
+  padding-block: 72px;
+  border-bottom: 1px solid var(--fg-10);
+}
+
+.kiv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--fg-15);
+  background: transparent;
+  color: var(--fg);
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.kiv-btn:hover {
+  background: var(--fg-05);
+  border-color: var(--fg-30);
+}
+
+.kiv-btn-primary {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.kiv-btn-primary:hover {
+  background: rgb(255 255 255 / 88%);
+  color: var(--bg);
+}
+
+.kiv-blink {
+  animation: kiv-blink 1.05s steps(1) infinite;
+}
+
+@keyframes kiv-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 980px) {
+  .kiv-shell {
+    padding-inline: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .kiv-shell {
+    padding-inline: 20px;
+  }
 }

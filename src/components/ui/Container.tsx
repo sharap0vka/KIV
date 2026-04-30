@@ -8,9 +8,7 @@ type ContainerProps = {
 
 export function Container({ children, as = "div", className, ...props }: ContainerProps) {
   const Component = as;
-  const classes = ["mx-auto w-full max-w-[var(--container-max)] px-6 md:px-12", className]
-    .filter(Boolean)
-    .join(" ");
+  const classes = ["kiv-shell", className].filter(Boolean).join(" ");
 
   return (
     <Component className={classes} {...props}>

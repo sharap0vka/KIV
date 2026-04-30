@@ -47,10 +47,15 @@ function MdxHeading({ as, children, id, ...props }: MdxHeadingProps) {
   const href = `#${resolvedId}`;
 
   return (
-    <Heading as={as} className="group scroll-mt-24" id={resolvedId} variant={getHeadingVariant(as)}>
+    <Heading
+      as={as}
+      className="group scroll-mt-24 border-b border-[var(--fg-10)] pb-2 pt-6"
+      id={resolvedId}
+      variant={getHeadingVariant(as)}
+    >
       <a
         aria-label={`Ссылка на раздел: ${getTextContent(children)}`}
-        className="mr-2 font-mono text-text-muted opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+        className="mr-2 font-mono text-[var(--fg-30)] opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         href={href}
       >
         #

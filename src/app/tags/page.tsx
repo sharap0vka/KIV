@@ -36,35 +36,39 @@ const sortedTags = sortTags(
 
 export default function TagsPage() {
   return (
-    <Container as="section" className="space-y-8">
-      <section className="space-y-4">
-        <Heading as="h1" variant="section">
-          Tags
-        </Heading>
-        <p className="max-w-2xl text-base text-text-secondary">
-          Единый индекс тем по опубликованным статьям и концепциям.
-        </p>
-      </section>
+    <section className="kiv-section">
+      <Container as="div">
+        <div className="mb-10 grid items-baseline gap-3 md:grid-cols-[200px_1fr_auto] md:gap-8">
+          <div className="text-xs uppercase tracking-[0.18em] text-[var(--fg-30)]">{"// 13"}</div>
+          <Heading as="h1" variant="section">
+            tags <span className="text-[var(--fg-30)]">/</span> index
+          </Heading>
+          <div className="text-[11px] uppercase tracking-[0.08em] text-[var(--fg-50)]">
+            {sortedTags.length} tags
+          </div>
+        </div>
 
-      <section className="grid gap-4">
-        {sortedTags.map((tag) => (
-          <Card
-            key={tag.slug}
-            variant="surface"
-            className="flex items-center justify-between gap-4"
-          >
-            <div className="flex min-w-0 flex-col gap-2">
-              <Heading as="h2" variant="bodyTitle">
-                <Link className="hover:text-text-muted" href={`/tags/${tag.slug}`}>
-                  {getTagDisplay(tag.slug)}
-                </Link>
-              </Heading>
-              <Tag variant="mono">{tag.slug}</Tag>
-            </div>
-            <span className="shrink-0 text-sm text-text-secondary">{tag.count} материалов</span>
-          </Card>
-        ))}
-      </section>
-    </Container>
+        <section className="grid gap-4">
+          {sortedTags.map((tag) => (
+            <Card
+              key={tag.slug}
+              variant="surface"
+              className="relative flex items-center justify-between gap-4"
+            >
+              <div className="flex min-w-0 flex-col gap-2">
+                <Heading as="h2" variant="bodyTitle">
+                  <Link className="hover:text-[var(--fg-50)]" href={`/tags/${tag.slug}`}>
+                    {getTagDisplay(tag.slug)}
+                  </Link>
+                </Heading>
+                <Tag variant="mono">{tag.slug}</Tag>
+              </div>
+              <span className="shrink-0 text-sm text-[var(--fg-70)]">{tag.count} материалов</span>
+              <span className="absolute right-4 top-4 text-sm text-[var(--fg-30)]">↗</span>
+            </Card>
+          ))}
+        </section>
+      </Container>
+    </section>
   );
 }

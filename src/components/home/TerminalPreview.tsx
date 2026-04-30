@@ -38,21 +38,44 @@ export function TerminalPreview() {
   }, [charIndex, isDeleting, phraseIndex]);
 
   return (
-    <aside className="border border-border bg-black/20 text-xs text-text-secondary">
-      <div className="flex items-center justify-between border-b border-border px-3 py-2 text-[11px] uppercase tracking-[1px]">
+    <aside
+      aria-hidden="true"
+      className="border border-[var(--fg-15)] bg-black/20 text-xs leading-[1.55]"
+    >
+      <div className="flex items-center justify-between border-b border-[var(--fg-10)] px-3 py-2 text-[11px] uppercase tracking-[0.08em] text-[var(--fg-50)]">
         <span>~/site2026 - shell - 80x24</span>
-        <span aria-hidden="true">[] [] []</span>
-      </div>
-      <div className="space-y-1 p-3">
-        <div>
-          <span className="text-text-muted">$</span> <span className="text-fg">pnpm build</span>
+        <div className="flex gap-1.5" aria-hidden="true">
+          <span className="h-2 w-2 border border-[var(--fg-30)]" />
+          <span className="h-2 w-2 border border-[var(--fg-30)]" />
+          <span className="h-2 w-2 border border-[var(--fg-30)]" />
         </div>
-        <div>velite: articles, concepts, trends</div>
-        <div>next build ... ok</div>
+      </div>
+      <div className="min-h-[220px] space-y-1 p-3.5 text-[var(--fg-70)]">
         <div>
-          <span className="text-text-muted">$</span>{" "}
-          <span className="text-fg">{(phrases[phraseIndex] ?? "").slice(0, charIndex)}</span>
-          <span className="animate-pulse">▌</span>
+          <span className="text-[var(--fg-30)]">$</span> <span className="text-fg">pnpm build</span>
+        </div>
+        <div>▸ velite: 5 collections</div>
+        <div>
+          · articles <span className="text-fg">12 ok</span>
+        </div>
+        <div>
+          · concepts <span className="text-fg">38 ok</span>
+        </div>
+        <div>
+          · trends <span className="text-fg">214 snapshots</span>
+        </div>
+        <div>
+          ▸ next build … <span className="text-[#9be7a8]">done in 8.4s</span>
+        </div>
+        <div>
+          <span className="text-[var(--fg-30)]">$</span>{" "}
+          <span className="text-fg">cron daily-trends</span>
+        </div>
+        <div>▸ fetched 41 repos · ranked Δ★/wk</div>
+        <div>
+          <span className="text-[var(--fg-30)]">$</span>{" "}
+          <span className="text-fg">{(phrases[phraseIndex] ?? "").slice(0, charIndex)}</span>{" "}
+          <span className="kiv-blink">▌</span>
         </div>
       </div>
     </aside>

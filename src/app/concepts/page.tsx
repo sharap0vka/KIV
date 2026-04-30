@@ -23,50 +23,53 @@ const publishedConcepts = concepts
 
 export default function ConceptsPage() {
   return (
-    <Container as="section" className="space-y-8">
-      <section className="space-y-4">
-        <Heading as="h1" variant="section">
-          Concepts
-        </Heading>
-        <p className="max-w-2xl text-base text-text-secondary">
-          Короткий глоссарий терминов по agentic engineering и смежным темам.
-        </p>
-      </section>
+    <section className="kiv-section">
+      <Container as="div">
+        <div className="mb-10 grid items-baseline gap-3 md:grid-cols-[200px_1fr_auto] md:gap-8">
+          <div className="text-xs uppercase tracking-[0.18em] text-[var(--fg-30)]">{"// 12"}</div>
+          <Heading as="h1" variant="section">
+            concepts <span className="text-[var(--fg-30)]">/</span> glossary
+          </Heading>
+          <div className="text-[11px] uppercase tracking-[0.08em] text-[var(--fg-50)]">
+            {publishedConcepts.length} entries
+          </div>
+        </div>
 
-      <section className="grid gap-4">
-        {publishedConcepts.map((concept) => {
-          const conceptPath = `/${concept.slug.replace(/^concepts\//, "")}`;
+        <section className="grid gap-4">
+          {publishedConcepts.map((concept) => {
+            const conceptPath = `/${concept.slug.replace(/^concepts\//, "")}`;
 
-          return (
-            <Card key={concept.slug} variant="surface" className="space-y-4">
-              <div className="space-y-2">
-                <Heading as="h2" variant="bodyTitle">
-                  <Link className="hover:text-text-muted" href={`/concepts${conceptPath}`}>
-                    {concept.title}
-                  </Link>
-                </Heading>
-                {concept.description ? (
-                  <p className="text-sm text-text-secondary">{concept.description}</p>
-                ) : null}
-              </div>
-
-              <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
-                <span>{dateFormatter.format(new Date(concept.date))}</span>
-              </div>
-
-              {concept.tags.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {concept.tags.map((tag) => (
-                    <Tag key={`${concept.slug}-${tag}`} variant="mono">
-                      {tag}
-                    </Tag>
-                  ))}
+            return (
+              <Card key={concept.slug} variant="surface" className="relative space-y-4">
+                <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.1em] text-[var(--fg-50)]">
+                  <span className="border border-[var(--fg-15)] px-2 py-1">concept</span>
+                  <span>{dateFormatter.format(new Date(concept.date))}</span>
                 </div>
-              ) : null}
-            </Card>
-          );
-        })}
-      </section>
-    </Container>
+                <div className="space-y-2">
+                  <Heading as="h2" variant="bodyTitle">
+                    <Link className="hover:text-[var(--fg-50)]" href={`/concepts${conceptPath}`}>
+                      {concept.title}
+                    </Link>
+                  </Heading>
+                  {concept.description ? (
+                    <p className="font-sans text-sm text-[var(--fg-70)]">{concept.description}</p>
+                  ) : null}
+                </div>
+                {concept.tags.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {concept.tags.map((tag) => (
+                      <Tag key={`${concept.slug}-${tag}`} variant="mono">
+                        {tag}
+                      </Tag>
+                    ))}
+                  </div>
+                ) : null}
+                <span className="absolute right-4 top-4 text-sm text-[var(--fg-30)]">↗</span>
+              </Card>
+            );
+          })}
+        </section>
+      </Container>
+    </section>
   );
 }

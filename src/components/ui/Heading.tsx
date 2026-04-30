@@ -13,9 +13,9 @@ type HeadingProps = {
 
 const variantClasses: Record<HeadingVariant, string> = {
   display:
-    "font-mono text-[clamp(3rem,10vw,12rem)] font-light leading-[1.1] tracking-normal text-fg",
-  section: "font-sans text-[1.88rem] font-normal leading-[1.2] text-fg",
-  bodyTitle: "font-sans text-xl font-normal leading-[1.35] text-fg",
+    "font-mono text-[clamp(56px,11vw,168px)] font-extralight leading-[0.92] tracking-[-0.04em] text-fg",
+  section: "font-mono text-[28px] font-light leading-[1.12] tracking-[-0.02em] text-fg",
+  bodyTitle: "font-mono text-2xl font-light leading-[1.2] tracking-[-0.01em] text-fg",
 };
 
 export function Heading({ children, as = "h2", variant = "section", className, id }: HeadingProps) {

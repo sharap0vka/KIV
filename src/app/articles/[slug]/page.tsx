@@ -86,33 +86,41 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
   }
 
   return (
-    <Container as="article" className="space-y-8">
-      <section className="space-y-4 border-b border-border pb-8">
-        <Heading as="h1" variant="section">
-          {article.title}
-        </Heading>
-        {article.description ? (
-          <p className="max-w-3xl text-base text-text-secondary">{article.description}</p>
-        ) : null}
+    <section className="kiv-section">
+      <Container as="article" className="space-y-8">
+        <section className="space-y-4 border-b border-[var(--fg-10)] pb-8">
+          <div className="text-xs uppercase tracking-[0.18em] text-[var(--fg-30)]">article</div>
+          <Heading as="h1" variant="section">
+            {article.title}
+          </Heading>
+          {article.description ? (
+            <p className="max-w-3xl font-sans text-base text-[var(--fg-70)]">
+              {article.description}
+            </p>
+          ) : null}
 
-        <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
-          <span>{dateFormatter.format(new Date(article.date))}</span>
-        </div>
-
-        {article.tags.length > 0 ? (
-          <div className="flex flex-wrap gap-2">
-            {article.tags.map((tag) => (
-              <Link key={`${article.slug}-${tag}`} href={`/tags/${getTagSlug(tag)}`}>
-                <Tag variant="mono">{tag}</Tag>
-              </Link>
-            ))}
+          <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.1em] text-[var(--fg-50)]">
+            <span>{dateFormatter.format(new Date(article.date))}</span>
           </div>
-        ) : null}
-      </section>
 
-      <Card variant="surface" className="prose prose-invert max-w-none prose-a:text-fg">
-        {renderArticleBody(article.body)}
-      </Card>
-    </Container>
+          {article.tags.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
+                <Link key={`${article.slug}-${tag}`} href={`/tags/${getTagSlug(tag)}`}>
+                  <Tag variant="mono">{tag}</Tag>
+                </Link>
+              ))}
+            </div>
+          ) : null}
+        </section>
+
+        <Card
+          variant="surface"
+          className="max-w-none space-y-4 font-sans text-[15px] leading-[1.7] text-[var(--fg-70)]"
+        >
+          {renderArticleBody(article.body)}
+        </Card>
+      </Container>
+    </section>
   );
 }

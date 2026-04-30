@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -9,10 +7,8 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/articles", label: "Articles" },
   { href: "/concepts", label: "Concepts" },
-  { href: "/about", label: "About" },
   { href: "/trends", label: "Trends" },
   { href: "/colophon", label: "Colophon" },
-  { href: "/design-preview", label: "Design Preview" },
 ];
 
 export function Header() {
@@ -23,45 +19,69 @@ export function Header() {
   };
 
   return (
-    <header className="border-b border-border bg-bg">
-      <Container as="div" className="flex min-h-16 items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link className="font-mono text-sm uppercase tracking-[1.4px] text-fg" href="/">
-            SITE2026
-          </Link>
-          <Button
-            variant="ghost"
-            className="px-3 py-2 md:hidden"
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-primary-nav"
-            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            onClick={() => setIsMenuOpen((value) => !value)}
-          >
-            {isMenuOpen ? "Close" : "Menu"}
-          </Button>
+    <header className="kiv-topbar">
+      <div className="kiv-shell kiv-topbar-inner">
+        <div className="flex items-center gap-3 text-[13px] tracking-[0.06em]">
+          <span className="grid h-[22px] w-[22px] place-items-center border border-[var(--fg-30)] text-[11px]">
+            Λ
+          </span>
+          <b className="font-medium">КИВ</b>
+          <span className="text-[var(--fg-30)]">/</span>
+          <span className="text-[var(--fg-50)]">костыли &amp; велосипеды</span>
         </div>
-        <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
+
+        <button
+          aria-controls="mobile-primary-nav"
+          aria-expanded={isMenuOpen}
+          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          className="kiv-btn px-3 py-2 md:hidden"
+          onClick={() => setIsMenuOpen((value) => !value)}
+          type="button"
+        >
+          {isMenuOpen ? "Close" : "Menu"}
+        </button>
+
+        <nav className="hidden items-center gap-7 text-[13px] text-[var(--fg-70)] md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
-              className="text-sm text-fg hover:text-text-muted"
+              className={
+                item.href === "/"
+                  ? "relative py-1 text-fg after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-px after:bg-fg"
+                  : "py-1"
+              }
               href={item.href}
             >
-              {item.label}
+              {item.href === "/" ? "index" : item.label.toLowerCase()}
             </Link>
           ))}
         </nav>
-        <Button variant="ghost" className="hidden md:inline-flex">
-          Read Feed
-        </Button>
-      </Container>
+
+        <div className="flex items-center gap-3 text-xs">
+          <span className="hidden items-center gap-1 border border-[var(--fg-15)] px-2 py-1 uppercase tracking-[0.08em] text-[var(--fg-70)] sm:inline-flex">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#5fd07a] shadow-[0_0_0_2px_rgba(95,208,122,0.18)]" />
+            build · ok
+          </span>
+          <Link className="kiv-btn hidden sm:inline-flex" href="/feed.xml">
+            RSS ↗
+          </Link>
+          <a
+            className="kiv-btn kiv-btn-primary"
+            href="https://github.com/sharap0vka/KIV"
+            rel="noreferrer"
+            target="_blank"
+          >
+            github →
+          </a>
+        </div>
+      </div>
 
       <div
-        id="mobile-primary-nav"
-        className={isMenuOpen ? "border-t border-border md:hidden" : "hidden"}
+        className={isMenuOpen ? "border-t border-[var(--fg-10)] md:hidden" : "hidden"}
         data-state={isMenuOpen ? "open" : "closed"}
+        id="mobile-primary-nav"
       >
-        <Container as="nav" className="flex flex-col gap-2 py-4" aria-label="Primary mobile">
+        <nav aria-label="Primary mobile" className="kiv-shell flex flex-col gap-2 py-4">
           {navItems.map((item) => (
             <Link
               key={`mobile-${item.href}`}
@@ -72,10 +92,7 @@ export function Header() {
               {item.label}
             </Link>
           ))}
-          <Button variant="ghost" className="mt-2 justify-start px-3" onClick={closeMenu}>
-            Read Feed
-          </Button>
-        </Container>
+        </nav>
       </div>
     </header>
   );

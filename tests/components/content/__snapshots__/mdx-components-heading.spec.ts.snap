@@ -4,12 +4,12 @@ exports[`mdx heading components > adds deterministic anchors for h2, h3 and h4 1
 <div>
   <article>
     <h2
-      class="font-sans text-xl font-normal leading-[1.35] text-fg group scroll-mt-24"
+      class="font-mono text-2xl font-light leading-[1.2] tracking-[-0.01em] text-fg group scroll-mt-24 border-b border-[var(--fg-10)] pb-2 pt-6"
       id="пайплайн-mdx-рендеринга"
     >
       <a
         aria-label="Ссылка на раздел: Пайплайн MDX рендеринга"
-        class="mr-2 font-mono text-text-muted opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+        class="mr-2 font-mono text-[var(--fg-30)] opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         href="#пайплайн-mdx-рендеринга"
       >
         #
@@ -17,12 +17,12 @@ exports[`mdx heading components > adds deterministic anchors for h2, h3 and h4 1
       Пайплайн MDX рендеринга
     </h2>
     <h3
-      class="font-sans text-xl font-normal leading-[1.35] text-fg group scroll-mt-24"
+      class="font-mono text-2xl font-light leading-[1.2] tracking-[-0.01em] text-fg group scroll-mt-24 border-b border-[var(--fg-10)] pb-2 pt-6"
       id="external-links-code"
     >
       <a
         aria-label="Ссылка на раздел: External Links & Code"
-        class="mr-2 font-mono text-text-muted opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+        class="mr-2 font-mono text-[var(--fg-30)] opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         href="#external-links-code"
       >
         #
@@ -30,12 +30,12 @@ exports[`mdx heading components > adds deterministic anchors for h2, h3 and h4 1
       External Links & Code
     </h3>
     <h4
-      class="font-sans text-xl font-normal leading-[1.35] text-fg group scroll-mt-24"
+      class="font-mono text-2xl font-light leading-[1.2] tracking-[-0.01em] text-fg group scroll-mt-24 border-b border-[var(--fg-10)] pb-2 pt-6"
       id="тесты-и-снэпшоты"
     >
       <a
         aria-label="Ссылка на раздел: Тесты и снэпшоты"
-        class="mr-2 font-mono text-text-muted opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+        class="mr-2 font-mono text-[var(--fg-30)] opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
         href="#тесты-и-снэпшоты"
       >
         #

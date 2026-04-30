@@ -12,7 +12,7 @@ export function AppShell({ children }: AppShellProps) {
     <div className="flex min-h-screen flex-col bg-bg text-fg">
       <Header />
       <StatusBar />
-      <main className="flex-1 py-12 md:py-16">{children}</main>
+      <main className="flex-1">{children}</main>
       <Footer />
     </div>
   );

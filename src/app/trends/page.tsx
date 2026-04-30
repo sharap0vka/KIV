@@ -1,7 +1,5 @@
-import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
-import { Tag } from "@/components/ui/Tag";
 import { getLatestTrendsSnapshotView } from "@/lib/trends/snapshots";
 import type { Metadata } from "next";
 
@@ -28,79 +26,71 @@ function formatNumber(value: number): string {
   return new Intl.NumberFormat("ru-RU").format(value);
 }
 
-function StarIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="currentColor">
-      <path d="M8 .9l2.1 4.2 4.6.7-3.3 3.2.8 4.6L8 11.8l-4.2 2.2.8-4.6L1.3 5.8l4.6-.7L8 .9z" />
-    </svg>
-  );
-}
-
 export default async function TrendsPage() {
   const { snapshot, freshnessLabel } = await getLatestTrendsSnapshotView();
 
   return (
-    <Container as="section" className="space-y-8">
-      <section className="space-y-4">
-        <Heading as="h1" variant="section">
-          Trends
-        </Heading>
-        <p className="max-w-3xl text-base text-text-secondary">
-          Последний weekly-снимок из общего списка GitHub Trending без фильтров.
-        </p>
-        <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
-          <Tag variant="mono">snapshot {snapshot.date}</Tag>
+    <section className="kiv-section">
+      <Container as="div">
+        <div className="mb-10 grid items-baseline gap-3 md:grid-cols-[200px_1fr_auto] md:gap-8">
+          <div className="text-xs uppercase tracking-[0.18em] text-[var(--fg-30)]">{"// 14"}</div>
+          <Heading as="h1" variant="section">
+            github trends <span className="text-[var(--fg-30)]">/</span> weekly
+          </Heading>
+          <div className="text-[11px] uppercase tracking-[0.08em] text-[var(--fg-50)]">
+            snapshot {snapshot.date}
+          </div>
+        </div>
+
+        <section className="border border-[var(--fg-10)]">
+          <div className="grid grid-cols-[48px_1fr_90px_24px] items-center gap-4 border-b border-[var(--fg-10)] bg-black/20 px-5 py-4 text-[11px] uppercase tracking-[0.12em] text-[var(--fg-50)] md:grid-cols-[48px_1fr_130px_130px_90px_24px]">
+            <div>#</div>
+            <div>repository</div>
+            <div className="hidden md:block">lang</div>
+            <div className="hidden md:block">★ total</div>
+            <div>Δ ★ / wk</div>
+            <div />
+          </div>
+          {snapshot.items.map((item, index) => {
+            const repoPath = `${item.owner}/${item.repo}`;
+            const githubUrl = `https://github.com/${repoPath}`;
+
+            return (
+              <a
+                className="grid grid-cols-[48px_1fr_90px_24px] items-center gap-4 border-b border-[var(--fg-10)] px-5 py-4 text-[13px] transition-colors last:border-b-0 hover:bg-[var(--fg-03)] md:grid-cols-[48px_1fr_130px_130px_90px_24px]"
+                href={githubUrl}
+                key={repoPath}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <div className="text-[var(--fg-30)]">{String(index + 1).padStart(2, "0")}</div>
+                <div className="min-w-0">
+                  <div className="truncate text-sm">
+                    <span className="text-[var(--fg-50)]">{item.owner}/</span>
+                    {item.repo}
+                  </div>
+                  <div className="truncate font-sans text-[13px] text-[var(--fg-50)]">
+                    {item.description ?? "Описание отсутствует."}
+                  </div>
+                </div>
+                <div className="hidden text-[var(--fg-70)] md:block">{item.language ?? "—"}</div>
+                <div className="hidden text-fg md:block">{formatNumber(item.starsTotal)}</div>
+                <div className={item.starsDeltaWeek >= 0 ? "text-[#9be7a8]" : "text-[#f4a4a4]"}>
+                  {item.starsDeltaWeek >= 0 ? "+" : ""}
+                  {formatNumber(item.starsDeltaWeek)}
+                </div>
+                <div className="text-[var(--fg-30)]">↗</div>
+              </a>
+            );
+          })}
+        </section>
+
+        <section className="mt-5 flex flex-wrap items-center justify-between gap-3 text-[11px] uppercase tracking-[0.08em] text-[var(--fg-50)]">
+          <span>Дата снимка: {dateFormatter.format(new Date(snapshot.date))}</span>
           <span>{freshnessLabel}</span>
-        </div>
-        <div className="text-xs text-text-muted">
-          Порядок карточек: как в GitHub Trending weekly.
-        </div>
-      </section>
-
-      <section className="grid gap-4">
-        {snapshot.items.map((item) => {
-          const repoPath = `${item.owner}/${item.repo}`;
-          const githubUrl = `https://github.com/${repoPath}`;
-
-          return (
-            <Card key={repoPath} variant="surface" className="space-y-4">
-              <div className="space-y-2">
-                <Heading as="h2" variant="bodyTitle">
-                  <a
-                    className="hover:text-text-muted"
-                    href={githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {repoPath}
-                  </a>
-                </Heading>
-                {item.description ? (
-                  <p className="text-sm text-text-secondary">{item.description}</p>
-                ) : (
-                  <p className="text-sm text-text-muted">Описание отсутствует.</p>
-                )}
-              </div>
-
-              <div className="flex flex-wrap items-center gap-2">
-                {item.language ? <Tag variant="mono">{item.language}</Tag> : null}
-                <Tag variant="mono" className="gap-1">
-                  <StarIcon />+{formatNumber(item.starsDeltaWeek)} за 7д
-                </Tag>
-                <Tag variant="mono" className="gap-1">
-                  <StarIcon />
-                  {formatNumber(item.starsTotal)} всего
-                </Tag>
-              </div>
-            </Card>
-          );
-        })}
-      </section>
-
-      <section className="border-t border-border pt-4 text-xs text-text-muted">
-        <p>Дата снимка: {dateFormatter.format(new Date(snapshot.date))}.</p>
-        <p>Сгенерировано: {dateTimeFormatter.format(new Date(snapshot.generatedAt))}.</p>
-      </section>
-    </Container>
+          <span>Сгенерировано: {dateTimeFormatter.format(new Date(snapshot.generatedAt))}</span>
+        </section>
+      </Container>
+    </section>
   );
 }

@@ -118,43 +118,46 @@ export default async function TagDetailsPage({ params }: TagsBySlugPageProps) {
   ].filter((group) => group.entries.length > 0);
 
   return (
-    <Container as="section" className="space-y-8">
-      <section className="space-y-4 border-b border-border pb-8">
-        <Heading as="h1" variant="section">
-          {displayTag}
-        </Heading>
-        <div className="flex flex-wrap items-center gap-3">
-          <Tag variant="mono">{tag}</Tag>
-          <span className="text-sm text-text-secondary">{entries.length} материалов</span>
-        </div>
-      </section>
-
-      {groupedEntries.map((group) => (
-        <section key={group.collection} className="space-y-4">
-          <Heading as="h2" variant="bodyTitle">
-            {getCollectionLabel(group.collection)}
+    <section className="kiv-section">
+      <Container as="section" className="space-y-8">
+        <section className="space-y-4 border-b border-[var(--fg-10)] pb-8">
+          <div className="text-xs uppercase tracking-[0.18em] text-[var(--fg-30)]">tag</div>
+          <Heading as="h1" variant="section">
+            {displayTag}
           </Heading>
-          <div className="grid gap-4">
-            {group.entries.map((entry) => (
-              <Card key={entry.slug} variant="surface" className="space-y-3">
-                <div className="space-y-2">
-                  <Heading as="h3" variant="bodyTitle">
-                    <Link className="hover:text-text-muted" href={toEntryHref(entry)}>
-                      {entry.title}
-                    </Link>
-                  </Heading>
-                  {entry.description ? (
-                    <p className="text-sm text-text-secondary">{entry.description}</p>
-                  ) : null}
-                </div>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
-                  <span>{dateFormatter.format(new Date(entry.date))}</span>
-                </div>
-              </Card>
-            ))}
+          <div className="flex flex-wrap items-center gap-3">
+            <Tag variant="mono">{tag}</Tag>
+            <span className="text-sm text-[var(--fg-70)]">{entries.length} материалов</span>
           </div>
         </section>
-      ))}
-    </Container>
+
+        {groupedEntries.map((group) => (
+          <section key={group.collection} className="space-y-4">
+            <Heading as="h2" variant="bodyTitle">
+              {getCollectionLabel(group.collection)}
+            </Heading>
+            <div className="grid gap-4">
+              {group.entries.map((entry) => (
+                <Card key={entry.slug} variant="surface" className="space-y-3">
+                  <div className="space-y-2">
+                    <Heading as="h3" variant="bodyTitle">
+                      <Link className="hover:text-[var(--fg-50)]" href={toEntryHref(entry)}>
+                        {entry.title}
+                      </Link>
+                    </Heading>
+                    {entry.description ? (
+                      <p className="font-sans text-sm text-[var(--fg-70)]">{entry.description}</p>
+                    ) : null}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.1em] text-[var(--fg-50)]">
+                    <span>{dateFormatter.format(new Date(entry.date))}</span>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </section>
+        ))}
+      </Container>
+    </section>
   );
 }
