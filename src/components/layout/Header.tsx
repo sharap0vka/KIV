@@ -6,7 +6,9 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/articles", label: "Articles" },
   { href: "/concepts", label: "Concepts" },
+  { href: "/about", label: "About" },
   { href: "/trends", label: "Trends" },
+  { href: "/colophon", label: "Colophon" },
   { href: "/design-preview", label: "Design Preview" },
 ];
 

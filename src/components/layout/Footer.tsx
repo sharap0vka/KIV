@@ -10,6 +10,9 @@ export function Footer() {
       >
         <p>site2026 · brutalist digital garden</p>
         <div className="flex items-center gap-4">
+          <Link className="hover:text-text-muted" href="/about">
+            About
+          </Link>
           <Link className="hover:text-text-muted" href="/colophon">
             Colophon
           </Link>
