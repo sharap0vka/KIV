@@ -1,5 +1,3 @@
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
@@ -49,90 +47,80 @@ const latestFeed: FeedItem[] = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-bg text-fg">
-      <Header />
-      <main className="py-12 md:py-16">
-        <Container as="section" className="space-y-12">
-          <section className="space-y-6 border-b border-border pb-12">
-            <Heading as="h1" variant="display">
-              SITE2026
-            </Heading>
-            <p className="max-w-2xl text-base text-text-secondary">
-              Персональный digital-garden про vibe-coding и agentic engineering: статьи, концепции и
-              практические заметки из ежедневной работы.
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Tag variant="mono">articles</Tag>
-              <Tag variant="mono">concepts</Tag>
-              <Tag variant="mono">trends</Tag>
-            </div>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                className="text-sm uppercase tracking-[1.4px] hover:text-text-muted"
-                href="/articles"
-              >
-                Читать статьи
-              </Link>
-              <Link
-                className="text-sm uppercase tracking-[1.4px] hover:text-text-muted"
-                href="/concepts"
-              >
-                Смотреть концепции
-              </Link>
-            </div>
-          </section>
+    <Container as="section" className="space-y-12">
+      <section className="space-y-6 border-b border-border pb-12">
+        <Heading as="h1" variant="display">
+          SITE2026
+        </Heading>
+        <p className="max-w-2xl text-base text-text-secondary">
+          Персональный digital-garden про vibe-coding и agentic engineering: статьи, концепции и
+          практические заметки из ежедневной работы.
+        </p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Tag variant="mono">articles</Tag>
+          <Tag variant="mono">concepts</Tag>
+          <Tag variant="mono">trends</Tag>
+        </div>
+        <div className="flex flex-wrap gap-4">
+          <Link
+            className="text-sm uppercase tracking-[1.4px] hover:text-text-muted"
+            href="/articles"
+          >
+            Читать статьи
+          </Link>
+          <Link
+            className="text-sm uppercase tracking-[1.4px] hover:text-text-muted"
+            href="/concepts"
+          >
+            Смотреть концепции
+          </Link>
+        </div>
+      </section>
 
-          <section className="space-y-4">
-            <Heading as="h2" variant="section">
-              Последние материалы
-            </Heading>
-            <div className="grid gap-4">
-              {latestFeed.map((item) => {
-                const href =
-                  item.collection === "article"
-                    ? `/articles/${item.slug.replace(/^articles\//, "")}`
-                    : `/concepts/${item.slug.replace(/^concepts\//, "")}`;
+      <section className="space-y-4">
+        <Heading as="h2" variant="section">
+          Последние материалы
+        </Heading>
+        <div className="grid gap-4">
+          {latestFeed.map((item) => {
+            const href =
+              item.collection === "article"
+                ? `/articles/${item.slug.replace(/^articles\//, "")}`
+                : `/concepts/${item.slug.replace(/^concepts\//, "")}`;
 
-                return (
-                  <Card
-                    key={`${item.collection}-${item.slug}`}
-                    variant="surface"
-                    className="space-y-4"
-                  >
-                    <div className="space-y-2">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Tag variant="mono">{item.collection}</Tag>
-                        <span className="text-xs text-text-muted">
-                          {dateFormatter.format(new Date(item.date))}
-                        </span>
-                      </div>
-                      <Heading as="h3" variant="bodyTitle">
-                        <Link className="hover:text-text-muted" href={href}>
-                          {item.title}
-                        </Link>
-                      </Heading>
-                      {item.description ? (
-                        <p className="text-sm text-text-secondary">{item.description}</p>
-                      ) : null}
-                    </div>
+            return (
+              <Card key={`${item.collection}-${item.slug}`} variant="surface" className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Tag variant="mono">{item.collection}</Tag>
+                    <span className="text-xs text-text-muted">
+                      {dateFormatter.format(new Date(item.date))}
+                    </span>
+                  </div>
+                  <Heading as="h3" variant="bodyTitle">
+                    <Link className="hover:text-text-muted" href={href}>
+                      {item.title}
+                    </Link>
+                  </Heading>
+                  {item.description ? (
+                    <p className="text-sm text-text-secondary">{item.description}</p>
+                  ) : null}
+                </div>
 
-                    {item.tags.length > 0 ? (
-                      <div className="flex flex-wrap gap-2">
-                        {item.tags.map((tag) => (
-                          <Tag key={`${item.slug}-${tag}`} variant="mono">
-                            {tag}
-                          </Tag>
-                        ))}
-                      </div>
-                    ) : null}
-                  </Card>
-                );
-              })}
-            </div>
-          </section>
-        </Container>
-      </main>
-      <Footer />
-    </div>
+                {item.tags.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {item.tags.map((tag) => (
+                      <Tag key={`${item.slug}-${tag}`} variant="mono">
+                        {tag}
+                      </Tag>
+                    ))}
+                  </div>
+                ) : null}
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+    </Container>
   );
 }

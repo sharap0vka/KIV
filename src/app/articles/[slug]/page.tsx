@@ -1,6 +1,4 @@
 import { mdxComponents } from "@/components/content/mdx-components";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
@@ -88,39 +86,33 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-bg text-fg">
-      <Header />
-      <main className="py-12 md:py-16">
-        <Container as="article" className="space-y-8">
-          <section className="space-y-4 border-b border-border pb-8">
-            <Heading as="h1" variant="section">
-              {article.title}
-            </Heading>
-            {article.description ? (
-              <p className="max-w-3xl text-base text-text-secondary">{article.description}</p>
-            ) : null}
+    <Container as="article" className="space-y-8">
+      <section className="space-y-4 border-b border-border pb-8">
+        <Heading as="h1" variant="section">
+          {article.title}
+        </Heading>
+        {article.description ? (
+          <p className="max-w-3xl text-base text-text-secondary">{article.description}</p>
+        ) : null}
 
-            <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
-              <span>{dateFormatter.format(new Date(article.date))}</span>
-            </div>
+        <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
+          <span>{dateFormatter.format(new Date(article.date))}</span>
+        </div>
 
-            {article.tags.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {article.tags.map((tag) => (
-                  <Link key={`${article.slug}-${tag}`} href={`/tags/${getTagSlug(tag)}`}>
-                    <Tag variant="mono">{tag}</Tag>
-                  </Link>
-                ))}
-              </div>
-            ) : null}
-          </section>
+        {article.tags.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {article.tags.map((tag) => (
+              <Link key={`${article.slug}-${tag}`} href={`/tags/${getTagSlug(tag)}`}>
+                <Tag variant="mono">{tag}</Tag>
+              </Link>
+            ))}
+          </div>
+        ) : null}
+      </section>
 
-          <Card variant="surface" className="prose prose-invert max-w-none prose-a:text-fg">
-            {renderArticleBody(article.body)}
-          </Card>
-        </Container>
-      </main>
-      <Footer />
-    </div>
+      <Card variant="surface" className="prose prose-invert max-w-none prose-a:text-fg">
+        {renderArticleBody(article.body)}
+      </Card>
+    </Container>
   );
 }

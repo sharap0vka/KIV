@@ -2,16 +2,16 @@
 
 :root {
   color-scheme: dark;
-  --bg: #1f2228;
-  --fg: #ffffff;
-  --text-secondary: rgb(255 255 255 / 70%);
-  --text-muted: rgb(255 255 255 / 50%);
-  --text-disabled: rgb(255 255 255 / 30%);
-  --border: rgb(255 255 255 / 10%);
-  --border-strong: rgb(255 255 255 / 20%);
-  --surface: rgb(255 255 255 / 3%);
-  --surface-hover: rgb(255 255 255 / 8%);
-  --focus-ring: rgb(59 130 246 / 50%);
+  --bg: #17191d;
+  --fg: #f9f9f9;
+  --text-secondary: rgb(249 249 249 / 74%);
+  --text-muted: rgb(249 249 249 / 58%);
+  --text-disabled: rgb(249 249 249 / 36%);
+  --border: rgb(249 249 249 / 14%);
+  --border-strong: rgb(249 249 249 / 26%);
+  --surface: rgb(249 249 249 / 4%);
+  --surface-hover: rgb(249 249 249 / 10%);
+  --focus-ring: rgb(250 204 21 / 58%);
   --radius-sharp: 0px;
   --radius-subtle: 4px;
   --space-1: 4px;
@@ -48,8 +48,16 @@ body {
   min-height: 100vh;
   background-color: var(--bg);
   color: var(--fg);
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   line-height: 1.5;
+}
+
+p,
+li,
+dd,
+dt,
+blockquote {
+  font-family: var(--font-sans);
 }
 
 *,
@@ -61,13 +69,41 @@ body {
 a {
   color: var(--fg);
   text-decoration: none;
+  transition: color 140ms ease, opacity 140ms ease;
 }
 
 a:hover {
   color: var(--text-muted);
 }
 
-:focus-visible {
+a:active {
+  opacity: 0.86;
+}
+
+button,
+input,
+select,
+textarea {
+  transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease, opacity 140ms
+    ease;
+}
+
+button:active,
+[role="button"]:active {
+  opacity: 0.86;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled,
+a[aria-disabled="true"] {
+  cursor: not-allowed;
+  color: var(--text-disabled);
+  opacity: 0.5;
+}
+
+:where(a, button, input, select, textarea, [role="button"]):focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }

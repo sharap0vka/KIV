@@ -1,7 +1,7 @@
 import { Heading } from "@/components/ui/Heading";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
-type MdxComponentMap = Record<string, (props: any) => ReactNode>;
+type MdxComponentMap = Record<string, (props: ComponentPropsWithoutRef<"h1">) => ReactNode>;
 type HeadingLevel = "h1" | "h2" | "h3" | "h4";
 
 function getTextContent(node: ReactNode): string {
