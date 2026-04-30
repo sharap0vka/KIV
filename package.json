@@ -17,6 +17,7 @@
     "smoke:config": "node scripts/smoke/check-config.mjs",
     "smoke:run": "node scripts/smoke/check-run.mjs",
     "smoke:all": "node scripts/smoke/check-structure.mjs && node scripts/smoke/check-config.mjs && node scripts/smoke/check-run.mjs",
+    "docs:sync-context": "node scripts/context/generate-context-docs.mjs",
     "prepare": "husky"
   },
   "dependencies": {

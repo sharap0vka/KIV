@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>КИВ // Костыли и велосипеды</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;300;400;500;700&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #1f2228;
+        --bg-2: #1a1d22;
+        --fg: #ffffff;
+        --fg-70: rgba(255, 255, 255, 0.7);
+        --fg-50: rgba(255, 255, 255, 0.5);
+        --fg-30: rgba(255, 255, 255, 0.3);
+        --fg-15: rgba(255, 255, 255, 0.15);
+        --fg-10: rgba(255, 255, 255, 0.1);
+        --fg-05: rgba(255, 255, 255, 0.05);
+        --fg-03: rgba(255, 255, 255, 0.03);
+        --ring: rgba(59, 130, 246, 0.5);
+        --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        --sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--mono);
+        font-feature-settings: "calt" 1, "liga" 1, "ss01" 1;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      a:hover {
+        color: var(--fg-50);
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        background: transparent;
+        color: inherit;
+        border: 1px solid var(--fg-15);
+        border-radius: 0;
+      }
+      ::selection {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+      }
+
+      /* layout grid + ambient bg */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: linear-gradient(var(--fg-03) 1px, transparent 1px),
+          linear-gradient(90deg, var(--fg-03) 1px, transparent 1px);
+        background-size: 64px 64px;
+        background-position: -1px -1px;
+        pointer-events: none;
+        z-index: 0;
+        mask-image: radial-gradient(circle at 50% 30%, #000 30%, transparent 80%);
+      }
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+            1200px 700px at 80% -10%,
+            rgba(255, 255, 255, 0.04),
+            transparent 60%
+          ),
+          radial-gradient(900px 600px at 0% 100%, rgba(59, 130, 246, 0.06), transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+
+      /* topbar */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(8px);
+        background: rgba(31, 34, 40, 0.78);
+        border-bottom: 1px solid var(--fg-10);
+      }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        letter-spacing: 0.06em;
+      }
+      .brand-mark {
+        width: 22px;
+        height: 22px;
+        border: 1px solid var(--fg-30);
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+      }
+      .brand-mark::before {
+        content: "Λ";
+      }
+      .brand b {
+        font-weight: 500;
+      }
+      .brand .sep {
+        color: var(--fg-30);
+      }
+      .brand .meta {
+        color: var(--fg-50);
+      }
+      .nav {
+        display: flex;
+        gap: 28px;
+        font-size: 13px;
+        color: var(--fg-70);
+      }
+      .nav a {
+        position: relative;
+        padding: 4px 0;
+      }
+      .nav a.active {
+        color: var(--fg);
+      }
+      .nav a.active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -2px;
+        height: 1px;
+        background: var(--fg);
+      }
+      .topbar-cta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 12px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 8px;
+        border: 1px solid var(--fg-15);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--fg-70);
+      }
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #5fd07a;
+        box-shadow: 0 0 0 2px rgba(95, 208, 122, 0.18);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border: 1px solid var(--fg-15);
+        background: transparent;
+        color: var(--fg);
+        transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+      }
+      .btn:hover {
+        background: var(--fg-05);
+        border-color: var(--fg-30);
+      }
+      .btn.primary {
+        background: var(--fg);
+        color: var(--bg);
+        border-color: var(--fg);
+      }
+      .btn.primary:hover {
+        background: rgba(255, 255, 255, 0.88);
+        color: var(--bg);
+      }
+
+      /* terminal status bar (under nav) */
+      .statusbar {
+        border-bottom: 1px solid var(--fg-10);
+        background: rgba(0, 0, 0, 0.15);
+      }
+      .statusbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 32px;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: var(--fg-50);
+      }
+      .statusbar .group {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+      .statusbar .k {
+        color: var(--fg-30);
+      }
+      .statusbar .v {
+        color: var(--fg-70);
+      }
+      .blink {
+        animation: blink 1.05s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* hero */
+      .hero {
+        position: relative;
+        padding: 88px 0 72px;
+        border-bottom: 1px solid var(--fg-10);
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 48px;
+        align-items: end;
+      }
+      .hero-eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--fg-50);
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 28px;
+      }
+      .hero-eyebrow .tag {
+        border: 1px solid var(--fg-15);
+        padding: 3px 8px;
+      }
+      .hero h1 {
+        font-family: var(--mono);
+        font-weight: 200;
+        font-size: clamp(56px, 11vw, 168px);
+        line-height: 0.92;
+        letter-spacing: -0.04em;
+        margin: 0;
+      }
+      .hero h1 .slash {
+        color: var(--fg-30);
+        font-weight: 200;
+      }
+      .hero h1 .lit {
+        color: var(--fg);
+      }
+      .hero h1 .dim {
+        color: var(--fg-50);
+      }
+      .hero-tagline {
+        margin-top: 28px;
+        max-width: 720px;
+        font-family: var(--sans);
+        font-size: 18px;
+        line-height: 1.55;
+        color: var(--fg-70);
+      }
+      .hero-tagline em {
+        color: var(--fg);
+        font-style: normal;
+        border-bottom: 1px dashed var(--fg-30);
+        padding-bottom: 1px;
+      }
+      .hero-actions {
+        margin-top: 36px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      /* hero side card — terminal */
+      .term {
+        border: 1px solid var(--fg-15);
+        background: rgba(0, 0, 0, 0.2);
+        font-size: 12px;
+        line-height: 1.55;
+      }
+      .term-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--fg-10);
+        color: var(--fg-50);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .term-dots {
+        display: flex;
+        gap: 6px;
+      }
+      .term-dots span {
+        width: 8px;
+        height: 8px;
+        border: 1px solid var(--fg-30);
+      }
+      .term-body {
+        padding: 14px 14px 16px;
+        color: var(--fg-70);
+        min-height: 220px;
+      }
+      .term-body .prompt {
+        color: var(--fg-30);
+      }
+      .term-body .cmd {
+        color: var(--fg);
+      }
+      .term-body .out {
+        color: var(--fg-70);
+      }
+      .term-body .ok {
+        color: #9be7a8;
+      }
+      .term-body .warn {
+        color: #f4d28e;
+      }
+      .term-body .key {
+        color: var(--fg);
+      }
+      .term-body div {
+        white-space: pre;
+      }
+
+      /* section header */
+      .section {
+        padding: 72px 0;
+        border-bottom: 1px solid var(--fg-10);
+        position: relative;
+      }
+      .section-head {
+        display: grid;
+        grid-template-columns: 200px 1fr auto;
+        gap: 32px;
+        align-items: baseline;
+        margin-bottom: 40px;
+      }
+      .section-num {
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        color: var(--fg-30);
+        text-transform: uppercase;
+      }
+      .section-title {
+        font-size: 28px;
+        letter-spacing: -0.02em;
+        font-weight: 300;
+        margin: 0;
+      }
+      .section-title .slash {
+        color: var(--fg-30);
+      }
+      .section-meta {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        color: var(--fg-50);
+        text-transform: uppercase;
+      }
+
+      /* feed */
+      .feed {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 24px;
+      }
+      .post {
+        grid-column: span 6;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border: 1px solid var(--fg-10);
+        padding: 24px;
+        position: relative;
+        transition: border-color 120ms ease, background 120ms ease;
+      }
+      .post:hover {
+        border-color: var(--fg-30);
+        background: var(--fg-03);
+      }
+      .post.feature {
+        grid-column: span 12;
+      }
+      .post-meta {
+        display: flex;
+        gap: 12px;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        color: var(--fg-50);
+        text-transform: uppercase;
+        align-items: center;
+      }
+      .post-meta .kind {
+        border: 1px solid var(--fg-15);
+        padding: 3px 8px;
+      }
+      .post-title {
+        font-size: 24px;
+        line-height: 1.18;
+        font-weight: 300;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+      .post.feature .post-title {
+        font-size: 40px;
+        line-height: 1.05;
+        max-width: 880px;
+      }
+      .post-desc {
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.55;
+        color: var(--fg-70);
+        margin: 0;
+      }
+      .post-tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: auto;
+        padding-top: 8px;
+      }
+      .ttag {
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: var(--fg-50);
+        border: 1px solid var(--fg-10);
+        padding: 3px 8px;
+      }
+      .post-arrow {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        color: var(--fg-30);
+        font-size: 14px;
+        transition: transform 160ms ease, color 160ms ease;
+      }
+      .post:hover .post-arrow {
+        transform: translate(2px, -2px);
+        color: var(--fg);
+      }
+
+      /* trends */
+      .trends {
+        border: 1px solid var(--fg-10);
+      }
+      .trends-row {
+        display: grid;
+        grid-template-columns: 48px 1fr 130px 130px 90px 24px;
+        gap: 16px;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--fg-10);
+        font-size: 13px;
+        transition: background 120ms ease;
+      }
+      .trends-row:last-child {
+        border-bottom: 0;
+      }
+      .trends-row:hover {
+        background: var(--fg-03);
+      }
+      .trends-row.head {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--fg-50);
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .trends-row.head:hover {
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .rank {
+        color: var(--fg-30);
+        font-variant-numeric: tabular-nums;
+      }
+      .repo {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .repo-name {
+        font-size: 14px;
+      }
+      .repo-name .owner {
+        color: var(--fg-50);
+      }
+      .repo-desc {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--fg-50);
+        line-height: 1.4;
+      }
+      .lang {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--fg-70);
+      }
+      .lang i {
+        width: 8px;
+        height: 8px;
+        background: var(--fg-30);
+        display: inline-block;
+      }
+      .stars {
+        font-variant-numeric: tabular-nums;
+        color: var(--fg);
+      }
+      .delta {
+        font-variant-numeric: tabular-nums;
+        color: #9be7a8;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .delta .spark {
+        width: 56px;
+        height: 16px;
+      }
+      .arrow {
+        color: var(--fg-30);
+      }
+
+      /* glossary */
+      .glossary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-top: 1px solid var(--fg-10);
+        border-left: 1px solid var(--fg-10);
+      }
+      .gcard {
+        padding: 24px;
+        border-right: 1px solid var(--fg-10);
+        border-bottom: 1px solid var(--fg-10);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: relative;
+        transition: background 140ms ease;
+      }
+      .gcard:hover {
+        background: var(--fg-03);
+      }
+      .gcard .num {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        font-size: 11px;
+        color: var(--fg-30);
+      }
+      .gcard h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+      }
+      .gcard h3 .punct {
+        color: var(--fg-30);
+      }
+      .gcard p {
+        margin: 0;
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--fg-70);
+      }
+      .gcard .aliases {
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: var(--fg-50);
+        margin-top: auto;
+        padding-top: 8px;
+      }
+
+      /* ticker */
+      .ticker {
+        border-top: 1px solid var(--fg-10);
+        border-bottom: 1px solid var(--fg-10);
+        overflow: hidden;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+      .ticker-track {
+        display: flex;
+        gap: 48px;
+        white-space: nowrap;
+        padding: 12px 0;
+        animation: tick 60s linear infinite;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        color: var(--fg-70);
+      }
+      .ticker-track span {
+        display: inline-flex;
+        gap: 14px;
+        align-items: center;
+      }
+      .ticker-track i {
+        color: var(--fg-30);
+        font-style: normal;
+      }
+      .ticker-track .up {
+        color: #9be7a8;
+      }
+      .ticker-track .dn {
+        color: #f4a4a4;
+      }
+      @keyframes tick {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* about / colophon */
+      .about {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+      }
+      .about h2 {
+        margin: 0 0 16px;
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: -0.02em;
+      }
+      .about p {
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--fg-70);
+      }
+      .stack {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border-top: 1px solid var(--fg-10);
+        border-left: 1px solid var(--fg-10);
+      }
+      .stack .row {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 16px;
+        padding: 14px 16px;
+        border-right: 1px solid var(--fg-10);
+        border-bottom: 1px solid var(--fg-10);
+        font-size: 12px;
+        align-items: baseline;
+      }
+      .stack .row k {
+        color: var(--fg-50);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 11px;
+      }
+      .stack .row v {
+        color: var(--fg);
+      }
+
+      /* footer */
+      footer {
+        padding: 56px 0 32px;
+        font-size: 12px;
+        color: var(--fg-50);
+        position: relative;
+        z-index: 1;
+      }
+      .ftree {
+        white-space: pre;
+        line-height: 1.55;
+        color: var(--fg-70);
+        font-size: 12px;
+        margin: 24px 0 32px;
+      }
+      .ftree b {
+        color: var(--fg);
+        font-weight: 500;
+      }
+      .ftree i {
+        color: var(--fg-30);
+        font-style: normal;
+      }
+      .fbottom {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        padding-top: 24px;
+        border-top: 1px solid var(--fg-10);
+      }
+      .fbottom .links {
+        display: flex;
+        gap: 24px;
+      }
+
+      /* responsive */
+      @media (max-width: 980px) {
+        .hero-grid,
+        .about {
+          grid-template-columns: 1fr;
+        }
+        .post,
+        .post.feature {
+          grid-column: span 12;
+        }
+        .glossary {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .section-head {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        .trends-row {
+          grid-template-columns: 32px 1fr 90px 24px;
+        }
+        .trends-row .col-lang,
+        .trends-row .col-stars {
+          display: none;
+        }
+        .stack {
+          grid-template-columns: 1fr;
+        }
+        .nav {
+          display: none;
+        }
+      }
+      @media (max-width: 640px) {
+        .shell {
+          padding: 0 20px;
+        }
+        .glossary {
+          grid-template-columns: 1fr;
+        }
+        .topbar-cta .btn:first-child,
+        .topbar-cta .pill {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="shell topbar-inner">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <b>КИВ</b>
+          <span class="sep">/</span>
+          <span class="meta">костыли &amp; велосипеды</span>
+        </div>
+        <nav class="nav">
+          <a href="#" class="active">index</a>
+          <a href="#articles">articles</a>
+          <a href="#concepts">concepts</a>
+          <a href="#trends">trends</a>
+          <a href="#colophon">colophon</a>
+        </nav>
+        <div class="topbar-cta">
+          <span class="pill"><span class="dot"></span><span>build · ok</span></span>
+          <a class="btn" href="#feed">RSS ↗</a>
+          <a class="btn primary" href="https://github.com/sharap0vka/KIV">github →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATUS BAR -->
+    <div class="statusbar">
+      <div class="shell statusbar-inner">
+        <div class="group">
+          <span><span class="k">node</span> <span class="v">~/kiv</span></span>
+          <span><span class="k">branch</span> <span class="v">main</span></span>
+          <span><span class="k">commit</span> <span class="v" id="commit">d784423</span></span>
+          <span><span class="k">last-push</span> <span class="v" id="pushed">2026-04-29 18:42 utc</span></span>
+        </div>
+        <div class="group">
+          <span><span class="k">readers</span> <span class="v" id="readers">17 online</span></span>
+          <span><span class="k">utc</span> <span class="v" id="clock">--:--:--</span><span class="blink"> ▌</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <main>
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div>
+            <div class="hero-eyebrow">
+              <span class="tag">v0.1.0 · MVP</span>
+              <span>персональный digital-garden</span>
+              <span style="color: var(--fg-30)">·</span>
+              <span>RU</span>
+            </div>
+            <h1>
+              kiv<span class="slash">/</span><span class="dim">site</span><br />
+              <span class="lit">2026</span><span class="slash">.</span><span class="dim">md</span>
+            </h1>
+            <p class="hero-tagline">
+              Каталог собственных знаний про <em>vibe-coding</em> и
+              <em>agentic engineering</em>: статьи, концепции, Cursor-skills, MCP-серверы и
+              ежедневный снимок GitHub-трендов в нише. Всё лежит в репозитории — git как CMS,
+              Cursor-агенты как редакторы, brutalism как форма.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#articles">читать ленту →</a>
+              <a class="btn" href="#trends">тренды дня</a>
+              <a class="btn" href="#colophon">colophon</a>
+            </div>
+          </div>
+
+          <aside class="term" aria-hidden="true">
+            <div class="term-head">
+              <span>~/kiv — zsh — 80×24</span>
+              <div class="term-dots"><span></span><span></span><span></span></div>
+            </div>
+            <div class="term-body" id="term">
+              <div><span class="prompt">$</span> <span class="cmd">pnpm build</span></div>
+              <div class="out">▸ velite: 5 collections</div>
+              <div class="out">  · articles  <span class="key">12 ok</span></div>
+              <div class="out">  · concepts  <span class="key">38 ok</span></div>
+              <div class="out">  · skills    <span class="warn">phase-2</span></div>
+              <div class="out">  · mcp       <span class="warn">phase-2</span></div>
+              <div class="out">  · trends    <span class="key">214 snapshots</span></div>
+              <div class="out">▸ next build … <span class="ok">done in 8.4s</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">cron daily-trends</span></div>
+              <div class="out">▸ fetched 41 repos · ranked Δ★/wk</div>
+              <div>
+                <span class="prompt">$</span> <span class="cmd" id="typed"></span><span class="blink">▌</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- TICKER -->
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track" id="ticker"></div>
+      </div>
+
+      <!-- FEED -->
+      <section class="section" id="articles">
+        <div class="shell">
+          <div class="section-head">
+            <div class="section-num">// 01</div>
+            <h2 class="section-title">
+              latest <span class="slash">/</span> articles &amp; concepts
+            </h2>
+            <div class="section-meta">12 articles · 38 concepts · 6 drafts</div>
+          </div>
+
+          <div class="feed">
+            <article class="post feature">
+              <div class="post-meta">
+                <span class="kind">article</span><span>2026-04-27</span><span>14 min</span>
+                <span style="color: var(--fg-30)">·</span><span>series · agent-loops</span>
+              </div>
+              <h3 class="post-title">
+                Agentic loops: почему «один промпт» — это устаревшая идиома, и как строить
+                наблюдаемые мульти-шаговые агенты на коммодити-моделях
+              </h3>
+              <p class="post-desc">
+                Разбираю архитектуру loop-runner'а на 200 строк TypeScript: tool-calling,
+                rate-limit с jitter, persisted трейс в JSONL, и почему «думай дольше» почти
+                всегда лучше, чем «думай умнее». С таблицей бюджетов и пятью граблями, на
+                которые я уже наступил.
+              </p>
+              <div class="post-tags">
+                <span class="ttag">agents</span><span class="ttag">loops</span>
+                <span class="ttag">observability</span><span class="ttag">typescript</span>
+              </div>
+              <span class="post-arrow">↗</span>
+            </article>
+
+            <article class="post">
+              <div class="post-meta">
+                <span class="kind">concept</span><span>updated 2026-04-22</span>
+              </div>
+              <h3 class="post-title">MCP — Model Context Protocol</h3>
+              <p class="post-desc">
+                Стандарт обмена контекстом между LLM-клиентом и внешними источниками: tools,
+                resources, prompts. Что в нём действительно ново, а что — переименованный
+                JSON-RPC.
+              </p>
+              <div class="post-tags">
+                <span class="ttag">mcp</span><span class="ttag">protocols</span>
+                <span class="ttag">glossary</span>
+              </div>
+              <span class="post-arrow">↗</span>
+            </article>
+
+            <article class="post">
+              <div class="post-meta">
+                <span class="kind">article</span><span>2026-04-18</span><span>8 min</span>
+              </div>
+              <h3 class="post-title">
+                Cursor-skills как unit-of-knowledge: почему я выкинул свой Notion
+              </h3>
+              <p class="post-desc">
+                Эволюция от длинных markdown-промптов к скиллам в `.agents/skills/`: триггеры,
+                инпуты, пре-коммит хуки. Скилл — это функция; промпт — это её стектрейс.
+              </p>
+              <div class="post-tags">
+                <span class="ttag">cursor</span><span class="ttag">skills</span>
+                <span class="ttag">workflow</span>
+              </div>
+              <span class="post-arrow">↗</span>
+            </article>
+
+            <article class="post">
+              <div class="post-meta">
+                <span class="kind">article</span><span>2026-04-12</span><span>11 min</span>
+              </div>
+              <h3 class="post-title">
+                Velite + Zod: контент-слой, который падает на билде, а не в проде
+              </h3>
+              <p class="post-desc">
+                Пять коллекций, одна схема, ноль CMS. Как frontmatter превратить в типы, а
+                типы — в гарантии. С разбором, почему я отказался от Contentlayer.
+              </p>
+              <div class="post-tags">
+                <span class="ttag">velite</span><span class="ttag">mdx</span>
+                <span class="ttag">zod</span><span class="ttag">typescript</span>
+              </div>
+              <span class="post-arrow">↗</span>
+            </article>
+
+            <article class="post">
+              <div class="post-meta">
+                <span class="kind">concept</span><span>updated 2026-04-09</span>
+              </div>
+              <h3 class="post-title">Vibe-coding</h3>
+              <p class="post-desc">
+                Стиль разработки, в котором редактор — это собеседник, а не транскрайбер.
+                Граница между «писать код» и «описывать намерение» становится производственной
+                переменной, а не философской.
+              </p>
+              <div class="post-tags">
+                <span class="ttag">workflow</span><span class="ttag">glossary</span>
+              </div>
+              <span class="post-arrow">↗</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- TRENDS -->
+      <section class="section" id="trends">
+        <div class="shell">
+          <div class="section-head">
+            <div class="section-num">// 02</div>
+            <h2 class="section-title">
+              github trends <span class="slash">/</span> agentic + mcp
+            </h2>
+            <div class="section-meta">snapshot · 2026-04-30 · ranked by Δ★/week</div>
+          </div>
+
+          <div class="trends" role="table">
+            <div class="trends-row head" role="row">
+              <div class="rank">#</div>
+              <div>repository</div>
+              <div class="col-lang">lang</div>
+              <div class="col-stars">★ total</div>
+              <div>Δ ★ / wk</div>
+              <div></div>
+            </div>
+
+            <a class="trends-row" href="#" role="row">
+              <div class="rank">01</div>
+              <div class="repo">
+                <div class="repo-name"><span class="owner">anthropics/</span>claude-code</div>
+                <div class="repo-desc">
+                  Terminal-native coding agent с MCP-tools и persistable session memory.
+                </div>
+              </div>
+              <div class="lang col-lang"><i style="background: #fff"></i> TypeScript</div>
+              <div class="stars col-stars">42,318</div>
+              <div class="delta">
+                +2,841
+                <svg class="spark" viewBox="0 0 56 16" preserveAspectRatio="none">
+                  <polyline
+                    points="0,12 8,11 16,9 24,10 32,7 40,5 48,3 56,1"
+                    fill="none"
+                    stroke="#9be7a8"
+                    stroke-width="1.2"
+                  />
+                </svg>
+              </div>
+              <div class="arrow">↗</div>
+            </a>
+
+            <a class="trends-row" href="#" role="row">
+              <div class="rank">02</div>
+              <div class="repo">
+                <div class="repo-name"><span class="owner">modelcontextprotocol/</span>servers</div>
+                <div class="repo-desc">
+                  Reference-серверы MCP: filesystem, git, postgres, slack, gmail, brave-search.
+                </div>
+              </div>
+              <div class="lang col-lang"><i style="background: #cfa8ff"></i> Python</div>
+              <div class="stars col-stars">31,902</div>
+              <div class="delta">
+                +1,673
+                <svg class="spark" viewBox="0 0 56 16" preserveAspectRatio="none">
+                  <polyline
+                    points="0,14 8,12 16,11 24,8 32,9 40,6 48,5 56,3"
+                    fill="none"
+                    stroke="#9be7a8"
+                    stroke-width="1.2"
+                  />
+                </svg>
+              </div>
+              <div class="arrow">↗</div>
+            </a>
+
+            <a class="trends-row" href="#" role="row">
+              <div class="rank">03</div>
+              <div class="repo">
+                <div class="repo-name"><span class="owner">block/</span>goose</div>
+                <div class="repo-desc">
+                  Локальный CLI-агент с тулзами и реплейями; легко форкать и затачивать под себя.
+                </div>
+              </div>
+              <div class="lang col-lang"><i style="background: #f4a4a4"></i> Rust</div>
+              <div class="stars col-stars">18,447</div>
+              <div class="delta">
+                +1,204
+                <svg class="spark" viewBox="0 0 56 16" preserveAspectRatio="none">
+                  <polyline
+                    points="0,13 8,10 16,11 24,9 32,7 40,8 48,4 56,2"
+                    fill="none"
+                    stroke="#9be7a8"
+                    stroke-width="1.2"
+                  />
+                </svg>
+              </div>
+              <div class="arrow">↗</div>
+            </a>
+
+            <a class="trends-row" href="#" role="row">
+              <div class="rank">04</div>
+              <div class="repo">
+                <div class="repo-name"><span class="owner">cline/</span>cline</div>
+                <div class="repo-desc">
+                  VS Code-расширение: автономный агент, который правит файлы и запускает команды.
+                </div>
+              </div>
+              <div class="lang col-lang"><i style="background: #fff"></i> TypeScript</div>
+              <div class="stars col-stars">26,109</div>
+              <div class="delta">
+                +988
+                <svg class="spark" viewBox="0 0 56 16" preserveAspectRatio="none">
+                  <polyline
+                    points="0,11 8,12 16,8 24,9 32,6 40,7 48,5 56,4"
+                    fill="none"
+                    stroke="#9be7a8"
+                    stroke-width="1.2"
+                  />
+                </svg>
+              </div>
+              <div class="arrow">↗</div>
+            </a>
+
+            <a class="trends-row" href="#" role="row">
+              <div class="rank">05</div>
+              <div class="repo">
+                <div class="repo-name"><span class="owner">Aider-AI/</span>aider</div>
+                <div class="repo-desc">
+                  AI pair-programmer для терминала: git-aware, понимает мульти-файловые правки.
+                </div>
+              </div>
+              <div class="lang col-lang"><i style="background: #cfa8ff"></i> Python</div>
+              <div class="stars col-stars">29,734</div>
+              <div class="delta">
+                +742
+                <svg class="spark" viewBox="0 0 56 16" preserveAspectRatio="none">
+                  <polyline
+                    points="0,9 8,11 16,8 24,10 32,8 40,6 48,7 56,5"
+                    fill="none"
+                    stroke="#9be7a8"
+                    stroke-width="1.2"
+                  />
+                </svg>
+              </div>
+              <div class="arrow">↗</div>
+            </a>
+
+            <a class="trends-row" href="#" role="row">
+              <div class="rank">06</div>
+              <div class="repo">
+                <div class="repo-name"><span class="owner">continuedev/</span>continue</div>
+                <div class="repo-desc">
+                  Open-source autopilot для VS Code и JetBrains; кастомные провайдеры моделей.
+                </div>
+              </div>
+              <div class="lang col-lang"><i style="background: #fff"></i> TypeScript</div>
+              <div class="stars col-stars">21,563</div>
+              <div class="delta" style="color: #f4d28e">
+                +318
+                <svg class="spark" viewBox="0 0 56 16" preserveAspectRatio="none">
+                  <polyline
+                    points="0,8 8,7 16,9 24,8 32,10 40,9 48,11 56,10"
+                    fill="none"
+                    stroke="#f4d28e"
+                    stroke-width="1.2"
+                  />
+                </svg>
+              </div>
+              <div class="arrow">↗</div>
+            </a>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: 20px;
+              font-size: 11px;
+              letter-spacing: 0.08em;
+              color: var(--fg-50);
+              text-transform: uppercase;
+            "
+          >
+            <span>scraped via gha cron · stored as content/trends/2026-04-30.json</span>
+            <a href="#" style="color: var(--fg)">→ history (214 snapshots)</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- GLOSSARY -->
+      <section class="section" id="concepts">
+        <div class="shell">
+          <div class="section-head">
+            <div class="section-num">// 03</div>
+            <h2 class="section-title">
+              concepts <span class="slash">/</span> рабочий глоссарий
+            </h2>
+            <div class="section-meta">38 entries · cc by 4.0</div>
+          </div>
+
+          <div class="glossary">
+            <a class="gcard" href="#">
+              <span class="num">01</span>
+              <h3>vibe-coding<span class="punct">.</span></h3>
+              <p>
+                Разработка через диалог с моделью: код — побочный продукт хорошо
+                сформулированного намерения, редактор — собеседник, не транскрайбер.
+              </p>
+              <div class="aliases">aliases · pair-prompting · intent-first</div>
+            </a>
+            <a class="gcard" href="#">
+              <span class="num">02</span>
+              <h3>agentic loop<span class="punct">.</span></h3>
+              <p>
+                Цикл «думай → выбери tool → выполни → наблюдай», обёрнутый в бюджет токенов и
+                персистентный трейс. Базовая единица любого автономного агента.
+              </p>
+              <div class="aliases">see also · react-loop · scratchpad</div>
+            </a>
+            <a class="gcard" href="#">
+              <span class="num">03</span>
+              <h3>MCP<span class="punct">.</span></h3>
+              <p>
+                Model Context Protocol — JSON-RPC поверх stdio/SSE, который описывает tools,
+                resources и prompts; превращает «контекст» в подключаемый интерфейс.
+              </p>
+              <div class="aliases">aliases · model-context-protocol</div>
+            </a>
+            <a class="gcard" href="#">
+              <span class="num">04</span>
+              <h3>cursor-skill<span class="punct">.</span></h3>
+              <p>
+                Декларативная единица знания агента: триггер, входы, инструкции. Скилл — это
+                функция, промпт — её stack-trace при вызове.
+              </p>
+              <div class="aliases">see also · prompt-template · macro</div>
+            </a>
+            <a class="gcard" href="#">
+              <span class="num">05</span>
+              <h3>RAG<span class="punct">.</span></h3>
+              <p>
+                Retrieval-Augmented Generation. Поиск релевантного куска перед генерацией.
+                Чаще всего — самый дорогой способ заменить хороший индекс файлов.
+              </p>
+              <div class="aliases">aliases · grounding · context-injection</div>
+            </a>
+            <a class="gcard" href="#">
+              <span class="num">06</span>
+              <h3>tool-calling<span class="punct">.</span></h3>
+              <p>
+                Способ модели запросить структурированное действие наружу: имя функции +
+                JSON-аргументы. Граница между «текстом» и «программой».
+              </p>
+              <div class="aliases">aliases · function-calling · structured-output</div>
+            </a>
+          </div>
+          <div
+            style="
+              margin-top: 20px;
+              font-size: 11px;
+              letter-spacing: 0.08em;
+              color: var(--fg-50);
+              text-transform: uppercase;
+              display: flex;
+              justify-content: space-between;
+            "
+          >
+            <span>showing 6 of 38</span>
+            <a href="#" style="color: var(--fg)">→ all concepts</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLOPHON / ABOUT -->
+      <section class="section" id="colophon" style="border-bottom: 0">
+        <div class="shell about">
+          <div>
+            <div class="section-num" style="margin-bottom: 16px">// 04 · colophon</div>
+            <h2>сайт, который сам себя документирует.</h2>
+            <p>
+              КИВ — это персональный digital-garden и одновременно его исходный код. Источник
+              истины — git: статьи и концепции в MDX, тренды в JSON, дизайн-система в одном
+              файле. Ни БД, ни CMS, ни runtime-AI. Cursor-агенты пишут материалы через PR,
+              GitHub Action ежедневно собирает снимок трендов и коммитит его в репо.
+            </p>
+            <p style="color: var(--fg-50); font-size: 14px">
+              Содержимое — CC BY 4.0. Код — MIT. Шрифты — Geist Sans + JetBrains Mono.
+              Палитра — белый на тёмном #1f2228, без оттенков серого посередине.
+            </p>
+            <div style="display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap">
+              <a class="btn" href="#">читать PRD →</a>
+              <a class="btn" href="#">design.md →</a>
+              <a class="btn" href="#">contributing →</a>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="row"><k>framework</k><v>Next.js 15 · App Router</v></div>
+            <div class="row"><k>language</k><v>TypeScript strict</v></div>
+            <div class="row"><k>styles</k><v>Tailwind v4 · @theme tokens</v></div>
+            <div class="row"><k>content</k><v>Velite · Zod · MDX</v></div>
+            <div class="row"><k>shiki</k><v>monochrome theme</v></div>
+            <div class="row"><k>linter</k><v>Biome</v></div>
+            <div class="row"><k>tests</k><v>Vitest</v></div>
+            <div class="row"><k>ci</k><v>GitHub Actions</v></div>
+            <div class="row"><k>db</k><v style="color: var(--fg-30)">— none —</v></div>
+            <div class="row"><k>auth</k><v style="color: var(--fg-30)">— none —</v></div>
+            <div class="row"><k>analytics</k><v style="color: var(--fg-30)">— none —</v></div>
+            <div class="row"><k>hosting</k><v>standalone · host-agnostic</v></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="shell">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 16px;
+          "
+        >
+          <h3 style="font-weight: 300; font-size: 22px; margin: 0; letter-spacing: -0.01em">
+            <span style="color: var(--fg-30)">~/</span>kiv<span style="color: var(--fg-30)">/</span>
+          </h3>
+          <span style="font-size: 11px; letter-spacing: 0.08em; color: var(--fg-50); text-transform: uppercase"
+            >структура репозитория</span
+          >
+        </div>
+        <pre class="ftree">
+.
+├── <b>content/</b>           <i># mdx + json — источник истины</i>
+│   ├── articles/         <i># длинные материалы, frontmatter+zod</i>
+│   ├── concepts/         <i># короткие энциклопедические записи</i>
+│   ├── skills/           <i># cursor-skills (phase 2)</i>
+│   ├── mcp/              <i># mcp-серверы (phase 2)</i>
+│   └── trends/           <i># YYYY-MM-DD.json + latest.json</i>
+├── <b>src/</b>               <i># next.js app — тонкий слой над контентом</i>
+│   ├── app/              <i># app router, RSC по умолчанию</i>
+│   └── components/       <i># примитивы: button, card, codeblock…</i>
+├── <b>scripts/</b>           <i># cron-фетчеры, smoke-тесты, утилиты</i>
+├── <b>.agents/skills/</b>    <i># локальные skills для cursor-агентов</i>
+├── DESIGN.md           <i># источник правды для UI-токенов</i>
+└── PRD.md              <i># этот сайт описан здесь</i></pre>
+
+        <div class="fbottom">
+          <span>© 2026 · sharap0vka · MIT (code) · CC BY 4.0 (content)</span>
+          <div class="links">
+            <a href="#">rss</a>
+            <a href="#">sitemap</a>
+            <a href="#">github</a>
+            <a href="#">telegram</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // live UTC clock
+      (function () {
+        const el = document.getElementById("clock");
+        function tick() {
+          const d = new Date();
+          const p = (n) => String(n).padStart(2, "0");
+          el.textContent = `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`;
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
+
+      // typed-in next prompt in terminal
+      (function () {
+        const target = document.getElementById("typed");
+        const phrases = [
+          "node scripts/build-feed.mjs",
+          "git commit -m 'trends: 2026-04-30 snapshot'",
+          "pnpm test --filter trends-fetcher",
+          "open http://localhost:3000",
+        ];
+        let pi = 0,
+          ci = 0,
+          dir = 1;
+        function step() {
+          const phrase = phrases[pi];
+          target.textContent = phrase.slice(0, ci);
+          ci += dir;
+          if (ci > phrase.length) {
+            dir = -1;
+            ci = phrase.length;
+            setTimeout(step, 1600);
+            return;
+          }
+          if (ci < 0) {
+            dir = 1;
+            ci = 0;
+            pi = (pi + 1) % phrases.length;
+            setTimeout(step, 240);
+            return;
+          }
+          setTimeout(step, dir > 0 ? 38 + Math.random() * 60 : 22);
+        }
+        step();
+      })();
+
+      // ticker content
+      (function () {
+        const items = [
+          ["claude-code", "+2,841", "up"],
+          ["mcp/servers", "+1,673", "up"],
+          ["block/goose", "+1,204", "up"],
+          ["cline/cline", "+988", "up"],
+          ["aider", "+742", "up"],
+          ["continue", "+318", "up"],
+          ["langchain", "−112", "dn"],
+          ["autogen", "+509", "up"],
+          ["vercel/ai", "+431", "up"],
+          ["openai/swarm", "−47", "dn"],
+          ["sst/opencode", "+212", "up"],
+          ["smol-ai/developer", "+89", "up"],
+        ];
+        const make = () =>
+          items
+            .map(
+              ([n, d, dir]) =>
+                `<span><i>★</i> ${n} <span class="${dir}">${d}</span></span>`
+            )
+            .join("");
+        const t = document.getElementById("ticker");
+        t.innerHTML = make() + make();
+      })();
+
+      // light readers number jitter
+      (function () {
+        const el = document.getElementById("readers");
+        let n = 17;
+        setInterval(() => {
+          n = Math.max(8, Math.min(42, n + (Math.random() < 0.5 ? -1 : 1)));
+          el.textContent = `${n} online`;
+        }, 4200);
+      })();
+    </script>
+  </body>
+</html>
