@@ -10,7 +10,9 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
+    "format:check": "biome format --check .",
     "format": "biome format --write .",
+    "quality:check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test",
     "smoke:structure": "node scripts/smoke/check-structure.mjs",
     "smoke:config": "node scripts/smoke/check-config.mjs",
     "smoke:run": "node scripts/smoke/check-run.mjs",
@@ -38,6 +40,9 @@
     "typescript": "^5.7.2",
     "velite": "^0.2.4",
     "vitest": "^4.1.5"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,md,css,scss,mjs,cjs,yml,yaml}": "biome check --write"
   },
   "packageManager": "pnpm@10.12.1"
 }
