@@ -3,6 +3,16 @@ import { buildCollectionOgMetadata, renderCollectionOgTemplate } from "@/lib/seo
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
+function firstImage(metadata: ReturnType<typeof buildCollectionOgMetadata>) {
+  const images = metadata.openGraph?.images;
+
+  if (!images) {
+    return undefined;
+  }
+
+  return Array.isArray(images) ? images[0] : images;
+}
+
 describe("buildCollectionOgMetadata", () => {
   it("builds Open Graph metadata for article route", () => {
     const metadata = buildCollectionOgMetadata({
@@ -21,7 +31,7 @@ describe("buildCollectionOgMetadata", () => {
         type: "article",
       },
     });
-    expect(metadata.openGraph?.images?.[0]).toMatchObject({
+    expect(firstImage(metadata)).toMatchObject({
       url: "https://site2026.dev/articles/test-ai-agents/opengraph-image",
       alt: "articles: Как тестировать AI-агентов",
       width: 1200,
@@ -37,7 +47,7 @@ describe("buildCollectionOgMetadata", () => {
       path: "/concepts/observer-pattern",
     });
 
-    expect(metadata.openGraph?.images?.[0]).toMatchObject({
+    expect(firstImage(metadata)).toMatchObject({
       url: "https://site2026.dev/concepts/observer-pattern/opengraph-image",
       alt: "concepts: Observer Pattern",
     });
