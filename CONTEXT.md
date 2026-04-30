@@ -1,6 +1,6 @@
 # CONTEXT
 
-> Автогенерируемый снимок проекта. Обновлено: 2026-04-30T14:22:32.037Z
+> Автогенерируемый снимок проекта. Обновлено: 2026-04-30T14:31:01.841Z
 
 ## Технологии
 - `next`: ^15.0.0
@@ -14,7 +14,7 @@
 - `dev: next dev`
 - `docs:sync-context: node scripts/context/generate-context-docs.mjs`
 - `format: biome format --write .`
-- `format:check: biome format --check .`
+- `format:check: biome format .`
 - `lint: biome check .`
 - `prepare: husky`
 - `quality:check: pnpm lint && pnpm format:check && pnpm typecheck && pnpm test`

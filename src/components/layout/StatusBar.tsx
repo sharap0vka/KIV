@@ -1,3 +1,4 @@
+import { UtcClock } from "@/components/home/UtcClock";
 import { Container } from "@/components/ui/Container";
 
 const statusItems = [
@@ -18,6 +19,9 @@ export function StatusBar() {
             {item}
           </span>
         ))}
+        <span className="ml-auto inline-flex items-center gap-2 font-mono uppercase tracking-[1px] text-text-muted">
+          utc <UtcClock />
+        </span>
       </Container>
     </output>
   );

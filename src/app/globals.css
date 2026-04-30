@@ -107,3 +107,16 @@ a[aria-disabled="true"] {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  animation: ticker-scroll 60s linear infinite;
+}

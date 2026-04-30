@@ -11,11 +11,25 @@ type TrendsSnapshotView = {
 };
 
 export async function getLatestTrendsSnapshotView(): Promise<TrendsSnapshotView> {
-  const snapshot = await readTrendsSnapshotFile(LATEST_FILENAME);
+  let snapshot: TrendsSnapshot;
+
+  try {
+    snapshot = await readTrendsSnapshotFile(LATEST_FILENAME);
+  } catch {
+    const now = new Date();
+    snapshot = {
+      date: now.toISOString().slice(0, 10),
+      generatedAt: now.toISOString(),
+      items: [],
+    };
+  }
 
   return {
     snapshot,
-    freshnessLabel: buildFreshnessLabel(snapshot.generatedAt),
+    freshnessLabel:
+      snapshot.items.length === 0
+        ? "Свежесть: fallback-режим, данные временно недоступны."
+        : buildFreshnessLabel(snapshot.generatedAt),
   };
 }
 
