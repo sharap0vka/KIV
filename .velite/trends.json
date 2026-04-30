@@ -1,1 +1,16 @@
-[{"date":"2026-04-28T00:00:00.000Z","generatedAt":"2026-04-28T08:00:00.000Z","items":[{"owner":"anthropics","repo":"claude-code","description":"Code agent","language":"TypeScript","starsTotal":1000,"starsDeltaWeek":140}]}]
+[
+  {
+    "date": "2026-04-28T00:00:00.000Z",
+    "generatedAt": "2026-04-28T08:00:00.000Z",
+    "items": [
+      {
+        "owner": "anthropics",
+        "repo": "claude-code",
+        "description": "Code agent",
+        "language": "TypeScript",
+        "starsTotal": 1000,
+        "starsDeltaWeek": 140
+      }
+    ]
+  }
+]

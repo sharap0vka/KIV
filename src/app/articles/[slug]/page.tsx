@@ -1,10 +1,11 @@
-import { Footer } from "@/components/layout/Footer";
 import { mdxComponents } from "@/components/content/mdx-components";
+import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
 import { Tag } from "@/components/ui/Tag";
+import { buildCollectionOgMetadata } from "@/lib/seo/og";
 import { getTagSlug } from "@/lib/tags";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -69,8 +70,12 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   }
 
   return {
-    title: `${article.title} — site2026`,
-    description: article.description ?? "Материал из раздела articles.",
+    ...buildCollectionOgMetadata({
+      title: article.title,
+      description: article.description ?? "Материал из раздела articles.",
+      collectionLabel: "articles",
+      path: `/articles/${slug}`,
+    }),
   };
 }
 
